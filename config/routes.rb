@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'dashboards/index'
   devise_for :users
+  devise_scope :user do
+    get '/users/sign_out', to: 'devise/sessions#destroy', as: :logout
+  end
   resources :dashboards
   resources :questions
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
+  resources :categories
   root 'welcome#index'
 end
