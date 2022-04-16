@@ -31,6 +31,18 @@
 				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 				<button class="btn btn-outline-success" type="submit">Search</button>
 			</form>
+			<div class='navbar-nav'>
+				<li class="nav-item">
+					<%= link_to 'Log Out', destroy_user_session_path, data: {turbo_method: :delete}, class:'nav-link' if user_signed_in?%>
+					<%= link_to 'Log In', user_session_path, class:'nav-link' unless user_signed_in?%>
+				</li>
+				<li class="nav-item">
+					<%= link_to 'Sign Up', new_user_registration_path, class:'nav-link' unless user_signed_in?%>
+				</li>
+			</div>
 		</div>
 	</div>
 </nav>
+<% if user_signed_in?%>
+	<%= button_to 'Log Out', destroy_user_session_path, method: :delete %>
+<% end%>
