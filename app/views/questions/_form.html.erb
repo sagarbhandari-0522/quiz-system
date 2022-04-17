@@ -5,6 +5,30 @@
 		<%= f.text_field :title%>
 	</div>
 	<div>
+		<%= f.collection_check_boxes :category_ids, Category.all, :id, :name%>
+	</div>
+	<%= f.fields_for :options do |option|%>
+		<div>
+			<%= option.label :Option1%><br>
+			<%= option.text_field :title%>
+			<%= option.check_box :correct%>
+		</div>
+	<% end %>
+	<%= f.fields_for :options do |option|%>
+		<div>
+			<%= option.label :OPtion2%><br>
+			<%= option.text_field :title%>
+			<%= option.check_box :correct%>
+		</div>
+	<% end %>
+	<%= f.fields_for :options do |option|%>
+		<div>
+			<%= option.label :Option3%><br>
+			<%= option.text_field :title%>
+			<%= option.check_box :correct%>
+		</div>
+	<% end%>
+	<div>
 		<%= f.submit data: {turbo:false}%>
 	</div>
 <%end %>

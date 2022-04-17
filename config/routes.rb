@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     get '/users/sign_out', to: 'devise/sessions#destroy', as: :logout
   end
   resources :dashboards
-  resources :questions
+  resources :questions do
+    resources :options
+  end
   resources :categories
   root 'welcome#index'
 end
