@@ -6,12 +6,14 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.options.build
   end
 
   def show; end
 
   def create
     @question = Question.new(question_params)
+
     if @question.save
       redirect_to question_path(@question)
     else
@@ -37,7 +39,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title)
+    params.require(:question).permit(:title, :correct, category_ids: [], options_attributes: {})
   end
 
   def find_question
