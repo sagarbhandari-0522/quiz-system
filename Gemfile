@@ -18,7 +18,10 @@ gem 'pg', '~> 1.1'
 gem 'bootstrap', '~> 5.1', '>= 5.1.3'
 gem 'puma', '~> 5.0'
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+gem 'dotenv-rails'
 gem 'importmap-rails'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem 'byebug'
