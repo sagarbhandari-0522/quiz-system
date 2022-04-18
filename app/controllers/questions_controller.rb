@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_question, only: %i[show edit update destroy]
   def index
     @questions = Question.all
@@ -7,6 +8,7 @@ class QuestionsController < ApplicationController
   def new
     @question = Question.new
     @question.options.build
+    authorize @question
   end
 
   def show
@@ -23,9 +25,12 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    authorize @question
+  end
 
   def update
+    authorize @question
     if @question.update(question_params)
       redirect_to question_path(@question)
     else
@@ -34,6 +39,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    authorize @question
     @question.destroy
     redirect_to questions_path, status: :see_other
   end
