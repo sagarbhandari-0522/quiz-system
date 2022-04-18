@@ -3,5 +3,5 @@
 <%= render @question.options%>
 <p> Answer:
 	<%=@option[0][:title]%></p>
-<%= link_to 'Edit Question', edit_question_path(@question) %>
-<%= link_to 'Delete Question',question_path(@question), data:{turbo_method: :delete}%>
+<%= link_to 'Edit Question', edit_question_path(@question) if policy(@question).edit?%>
+<%= link_to 'Delete Question',question_path(@question), data:{turbo_method: :delete}if policy(@question).destroy?%>

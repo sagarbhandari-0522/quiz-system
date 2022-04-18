@@ -8,6 +8,7 @@ class CategoriesController < ApplicationController
 
   def new
     @category = Category.new
+    authorize @category
   end
 
   def create
@@ -19,9 +20,12 @@ class CategoriesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    authorize @category
+  end
 
   def update
+    authorize @category
     if Category.update(category_params)
       redirect_to category_path(@category)
     else
@@ -30,6 +34,7 @@ class CategoriesController < ApplicationController
   end
 
   def destoy
+    authorize @category
     @category.destroy
     redirect_to categories_path, status: :see_other
   end
