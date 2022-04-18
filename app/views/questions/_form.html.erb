@@ -1,34 +1,19 @@
 <h1><%= a%></h1>
-<%= form_with model:@question do|f|%>
+<%= form_for @question do|form|%>
 	<div>
-		<%= f.label :title%><br>
-		<%= f.text_field :title%>
+		<%= form.label :title%><br>
+		<%= form.text_field :title%>
 	</div>
 	<div>
-		<%= f.collection_check_boxes :category_ids, Category.all, :id, :name%>
+		<%= form.collection_check_boxes :category_ids, Category.all, :id, :name%>
 	</div>
-	<%= f.fields_for :options do |option|%>
-		<div>
-			<%= option.label :Option1%><br>
-			<%= option.text_field :title%>
-			<%= option.check_box :correct%>
-		</div>
-	<% end %>
-	<%= f.fields_for :options do |option|%>
-		<div>
-			<%= option.label :Option2%><br>
-			<%= option.text_field :title%>
-			<%= option.check_box :correct%>
-		</div>
-	<% end %>
-	<%= f.fields_for :options do |option|%>
-		<div>
-			<%= option.label :Option3%><br>
-			<%= option.text_field :title%>
-			<%= option.check_box :correct%>
-		</div>
-	<% end%>
+	<%= link_to_add_nested(form, :options, '#options',link_classes: 'btn btn-primary',partial:'option_fields') %>
+	<div id='options'>
+		<%= form.fields_for :options do |option_f| %>
+			<%= render 'option_fields', form: option_f %>
+		<% end %>
+	</div>
 	<div>
-		<%= f.submit data: {turbo:false}%>
+		<%= form.submit data: {turbo:false}%>
 	</div>
 <%end %>

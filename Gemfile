@@ -26,7 +26,7 @@ gem 'omniauth-rails_csrf_protection'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem 'byebug'
 gem 'turbo-rails'
-
+gem 'vanilla_nested', '~> 1.6', '>= 1.6.1'
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
 
