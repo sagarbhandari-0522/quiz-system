@@ -1,4 +1,1 @@
-<% @questions.each do |question|%>
-	<%= question.title%>
-	<%= link_to 'Show', question_path(question) %><br>
-<% end%>
+<%=render 'question', obj:@questions%>

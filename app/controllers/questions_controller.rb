@@ -9,7 +9,9 @@ class QuestionsController < ApplicationController
     @question.options.build
   end
 
-  def show; end
+  def show
+    @option = Option.correct(@question)
+  end
 
   def create
     @question = Question.new(question_params)
