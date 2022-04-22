@@ -8,45 +8,34 @@ RSpec.describe Question, type: :model do
       expect(question).to respond_to(:title)
     end
   end
-  describe 'presence of attributes value' do
-    it 'title should  value' do
+
+  describe 'association' do
+    it { should have_many(:options) }
+    it { should have_many(:categories) }
+  end
+  describe 'validation' do
+    it 'should have title' do
       expect(subject).to be_valid
+    end
+    it 'should not accept without title' do
       subject.title = nil
       expect(subject).to_not be_valid
     end
-  end
-  describe 'association' do
     it 'should have many options' do
       question = build(:question, :with_options)
       expect(question).to be_valid
     end
-    it 'should have at least 3 option' do
+    it 'should contain at least 3 option' do
       question = build(:question, :with_options, option_count: 5)
       expect(question).to be_valid
+    end
+    it 'should not accept with less than 3 options' do
       question = build(:question, :with_options, option_count: 2)
       expect(question).to_not be_valid
     end
-    it 'should belongs to more categories' do
+    it 'may have more than one categories ' do
       question = build(:question, :with_categories)
       expect(question.categories.length).to be > 1
     end
   end
 end
-# it 'title should presence value' do
-# question= build(:question).with_options
-# end
-
-# subject { build(:question, options: options) }
-
-# describe 'attributes' do
-#   it 'has title' do
-#     expect(subject).to respond_to(:title)
-#   end
-# end
-# describe 'attributes value' do
-#   it 'title should presence value ' do
-#     expect(subject).to be_valid
-#     subject.title = nil
-#     expect(subject).to_not be_valid
-#   end
-# end
