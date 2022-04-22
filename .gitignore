@@ -10,6 +10,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+
 !/log/.keep
 !/tmp/.keep
 
@@ -31,3 +32,6 @@
 /config/master.key
 /.byebug_history
 /.env
+/spec/models/question_category_spec.rb
+/spec/factories/question_categories.rb
+/app/controllers/options_controller.rb
