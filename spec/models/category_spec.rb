@@ -8,14 +8,18 @@ RSpec.describe Category, type: :model do
       expect(category).to respond_to(:name)
     end
   end
-  describe 'attributes' do
-    it 'name should  value' do
+  describe 'association' do
+    it { should have_many(:questions) }
+  end
+
+  describe 'validation' do
+    it 'should have name' do
       expect(subject).to be_valid
+    end
+    it 'should not accept without name' do
       subject.name = nil
       expect(subject).to_not be_valid
     end
-  end
-  describe 'association' do
     it 'has many question' do
       category = build(:category, :with_questions)
       expect(category.questions.length).to be > 1
