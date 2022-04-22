@@ -1,6 +1,6 @@
 class Option < ApplicationRecord
   belongs_to :question
-  #  scope :correct, ->(id) { where("question_id==#{id}" && 'correct ==true') }
+  validates :title, presence: true
   scope :correct, lambda { |id|
     where(question_id: id, correct: 'true')
   }
