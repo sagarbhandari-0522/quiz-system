@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+  before_action :authenticate_user!
+
   before_action :find_category, only: %i[show edit update destroy]
   def index
     @categories = Category.all
@@ -14,8 +16,10 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(category_params)
     if @category.save
+      flash[:success] = 'Category Created Successfully'
       redirect_to category_path(@category)
     else
+      flash[:danger] = 'Category Created Unsuccessfull'
       render :new, status: :unprocessable_entity
     end
   end
@@ -33,7 +37,7 @@ class CategoriesController < ApplicationController
     end
   end
 
-  def destoy
+  def destroy
     authorize @category
     @category.destroy
     redirect_to categories_path, status: :see_other
