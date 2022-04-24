@@ -20,9 +20,5 @@ RSpec.describe Category, type: :model do
       subject.name = nil
       expect(subject).to_not be_valid
     end
-    it 'has many question' do
-      category = build(:category, :with_questions)
-      expect(category.questions.length).to be > 1
-    end
   end
 end

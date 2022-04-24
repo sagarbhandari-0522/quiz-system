@@ -21,9 +21,7 @@ RSpec.describe Option, type: :model do
       subject.title = nil
       expect(subject).to_not be_valid
     end
-    it 'should associated with question' do
-      expect(subject).to be_valid
-    end
+
     it 'should not accept without question' do
       subject.question = nil
       expect(subject).to_not be_valid

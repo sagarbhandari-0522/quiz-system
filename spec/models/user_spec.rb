@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'attributes' do
+  describe 'validation' do
     it 'should presence email' do
       user = User.new(email: 'sagarvandari1@gmail.com', password: 'password')
       expect(user).to be_valid

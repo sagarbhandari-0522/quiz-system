@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
 
   def show
     @option = Option.correct(@question)
+    authorize @question
   end
 
   def create
