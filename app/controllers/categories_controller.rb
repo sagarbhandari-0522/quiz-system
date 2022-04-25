@@ -41,6 +41,8 @@ class CategoriesController < ApplicationController
     authorize @category
     @category.destroy
     redirect_to categories_path, status: :see_other
+  rescue StandardError => e
+    render body: e.message
   end
 
   private

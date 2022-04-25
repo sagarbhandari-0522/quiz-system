@@ -29,7 +29,7 @@ class CategoryPolicy < ApplicationPolicy
     edit?
   end
 
-  def destroy
+  def destroy?
     edit?
   end
 end

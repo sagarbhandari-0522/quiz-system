@@ -46,7 +46,6 @@ RSpec.describe 'Categories', type: :request do
   end
   describe 'PATCH/update' do
     it 'should update a category by the provided data' do
-      sign_in user
       category = create(:category, name: 'Sports')
       patch "/categories/#{category.id}", params: { category: { name: 'hello' } }
       c = Category.first
@@ -57,7 +56,20 @@ RSpec.describe 'Categories', type: :request do
     it 'should delete category of provided id' do
       category = create(:category)
       delete "/categories/#{category.id}"
-      response.should have_http_status(302)
+      response.should have_http_status(:see_other)
+    end
+    it 'should decrese the value of count on delete' do
+      Category.count.should eq 0
+      category = create(:category)
+      Category.count.should eq 1
+      delete "/categories/#{category.id}"
+      Category.count.should eq 0
+    end
+    it 'non admin user can not delete category' do
+      category = create(:category)
+      user.admin = false
+      delete "/categories/#{category.id}"
+      response.body.should eq('not allowed to destroy? this Category')
     end
   end
 end
