@@ -15,6 +15,7 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new(category_params)
+    authorize @category
     if @category.save
       flash[:success] = 'Category Created Successfully'
       redirect_to category_path(@category)
@@ -22,6 +23,8 @@ class CategoriesController < ApplicationController
       flash[:danger] = 'Category Created Unsuccessfull'
       render :new, status: :unprocessable_entity
     end
+  rescue StandardError => e
+    render body: e.message
   end
 
   def edit
@@ -35,6 +38,8 @@ class CategoriesController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  rescue StandardError => e
+    render body: e.message
   end
 
   def destroy
