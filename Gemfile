@@ -10,6 +10,8 @@ gem 'rails', '~> 7.0.2', '>= 7.0.2.3'
 
 # gem for authorization
 gem 'pundit'
+# gem for pagination
+gem 'pagy'
 # gem for authentication
 gem 'devise', '~> 4.8', '>= 4.8.1'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
