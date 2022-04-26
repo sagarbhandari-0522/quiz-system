@@ -3,6 +3,8 @@ class QuestionsController < ApplicationController
   before_action :find_question, only: %i[show edit update destroy]
   def index
     @questions = Question.all
+  rescue StandardError => e
+    render body: e.message
   end
 
   def new
@@ -13,16 +15,21 @@ class QuestionsController < ApplicationController
 
   def show
     @option = Option.correct(@question)
+    authorize @question
+  rescue StandardError => e
+    render body: e.message
   end
 
   def create
     @question = Question.new(question_params)
-
+    authorize @question
     if @question.save
       redirect_to question_path(@question)
     else
       render :new, status: :unprocessable_entity
     end
+  rescue StandardError => e
+    render body: e.message
   end
 
   def edit
@@ -36,12 +43,16 @@ class QuestionsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  rescue StandardError => e
+    render body: e.message
   end
 
   def destroy
     authorize @question
     @question.destroy
     redirect_to questions_path, status: :see_other
+  rescue StandardError => e
+    render body: e.message
   end
 
   private

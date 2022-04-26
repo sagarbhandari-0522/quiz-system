@@ -18,10 +18,14 @@ class CategoryPolicy < ApplicationPolicy
   end
 
   def new?
-    @user.admin == true
+    @user.admin?
   end
 
   def edit?
+    new?
+  end
+
+  def create?
     new?
   end
 
@@ -29,7 +33,7 @@ class CategoryPolicy < ApplicationPolicy
     edit?
   end
 
-  def destroy
+  def destroy?
     edit?
   end
 end
