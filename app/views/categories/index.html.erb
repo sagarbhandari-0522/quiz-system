@@ -1,3 +1,4 @@
+<%== pagy_bootstrap_nav(@pagy) %>
 <% @categories.each do |category|%>
 	<%= link_to "#{category.name}",category_path(category)%><br>
 <% end%>
