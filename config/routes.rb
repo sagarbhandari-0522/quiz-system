@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'dashboards/index'
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_scope :user do
+    get '/users/sign_out', to: 'devise/sessions#destroy', as: :logout
+  end
   resources :dashboards
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
+  resources :questions do
+    resources :options
+  end
+  resources :categories
   root 'welcome#index'
 end

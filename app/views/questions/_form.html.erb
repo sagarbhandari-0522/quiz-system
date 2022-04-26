@@ -1,0 +1,19 @@
+<h1><%= a%></h1>
+<%= form_for @question do|form|%>
+	<div>
+		<%= form.label :title%><br>
+		<%= form.text_field :title%>
+	</div>
+	<div>
+		<%= form.collection_check_boxes :category_ids, Category.all, :id, :name%>
+	</div>
+	<%= link_to_add_nested(form, :options, '#options',link_classes: 'btn btn-primary',partial:'option_fields') %>
+	<div id='options'>
+		<%= form.fields_for :options do |option_f| %>
+			<%= render 'option_fields', form: option_f %>
+		<% end %>
+	</div>
+	<div>
+		<%= form.submit data: {turbo:false}%>
+	</div>
+<%end %>

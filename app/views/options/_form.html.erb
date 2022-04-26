@@ -1,0 +1,14 @@
+<h2><%= a%> </h2>
+<%= form_with model: [@question, @question.options.build] do |f|%>
+	<p>
+		<%= f.label :title%><br>
+		<%= f.text_field :title%>
+	</p>
+	<p>
+		<%= f.check_box :correct%>
+		<%= f.label :correct%>
+	</p>
+	<p>
+		<%= f.submit%>
+	</p>
+<% end %>
