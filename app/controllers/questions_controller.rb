@@ -61,7 +61,7 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, category_ids: [],
-                                             options_attributes: %i[id title correct _destroy])
+                                             options_attributes: %i[id title correct image _destroy])
   end
 
   def find_question

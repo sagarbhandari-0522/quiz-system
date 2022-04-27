@@ -1,3 +1,6 @@
+<% if option.image?%>
+	<%= image_tag(option.image.url,alt:'Image')%>
+<%end%>
 <p>
 	<%= option.title %>
 </p>

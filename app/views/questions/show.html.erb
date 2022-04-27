@@ -3,7 +3,10 @@
 <%= render @question.options%>
 <% unless @option[0].nil?%>
 	<p> Answer:
-		<%=@option[0][:title]%></p>
+		<%=@option[0][:title]%>
+		<% if @option[0].image?%>
+			<%= image_tag(@option[0].image.url,alt:'Image')%></p>
+	<% end%>
 <% end %>
 <%= link_to 'Edit Question', edit_question_path(@question) if policy(@question).edit?%>
 <%= link_to 'Delete Question',question_path(@question), data:{turbo_method: :delete}if policy(@question).destroy?%>
