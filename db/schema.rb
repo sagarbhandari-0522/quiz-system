@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_27_083419) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_27_103554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,6 +48,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_083419) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "categories_quizzes", id: false, force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.bigint "quiz_id", null: false
+    t.index ["category_id", "quiz_id"], name: "index_categories_quizzes_on_category_id_and_quiz_id"
+    t.index ["quiz_id", "category_id"], name: "index_categories_quizzes_on_quiz_id_and_category_id"
+  end
+
   create_table "options", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -65,6 +72,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_083419) do
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_question_categories_on_category_id"
     t.index ["question_id"], name: "index_question_categories_on_question_id"
+  end
+
+  create_table "question_quizzes", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "quiz_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_question_quizzes_on_question_id"
+    t.index ["quiz_id"], name: "index_question_quizzes_on_quiz_id"
   end
 
   create_table "questions", force: :cascade do |t|
