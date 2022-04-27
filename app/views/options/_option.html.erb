@@ -1,6 +1,4 @@
-<% if option.image?%>
-	<%= image_tag(option.image.thumb.url,alt:'Image')%>
-<%end%>
+<%= link_to image_tag(option.image.thumb.url,alt:'Image'),option.image.url if option.image? %>
 <p>
 	<%= option.title %>
 </p>
