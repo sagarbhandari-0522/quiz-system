@@ -34,8 +34,8 @@ gem 'byebug'
 gem 'turbo-rails'
 gem 'vanilla_nested', '~> 1.6', '>= 1.6.1'
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+gem 'carrierwave'
 gem 'stimulus-rails'
-
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
