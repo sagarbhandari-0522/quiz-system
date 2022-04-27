@@ -1,5 +1,5 @@
 <% if option.image?%>
-	<%= image_tag(option.image.url,alt:'Image')%>
+	<%= image_tag(option.image.thumb.url,alt:'Image')%>
 <%end%>
 <p>
 	<%= option.title %>
