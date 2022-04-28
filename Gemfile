@@ -61,7 +61,6 @@ gem 'sassc-rails'
 # gem "image_processing", "~> 1.2"
 # Image uploader gem
 gem 'carrierwave'
-gem 'file_validators'
 gem 'mini_magick'
 group :development, :test do
   gem 'factory_bot_rails'
