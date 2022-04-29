@@ -7,12 +7,13 @@ RSpec.describe 'Questions', type: :request do
   before { sign_in(user) }
   let(:question) do
     category = create(:category)
+    # image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile.jpg'))
     options_params = { '0' => { 'title' => 'A', 'correct' => '0',
-                                '_destroy' => '0' },
+                                '_destroy' => '0', 'image' => Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile.jpg')) },
                        '1' => { 'title' => 'A', 'correct' => '0',
-                                '_destroy' => '0' },
+                                '_destroy' => '0', 'image' => Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile2.jpg')) },
                        '2' => { 'title' => 'A', 'correct' => '0',
-                                '_destroy' => '0' } }
+                                '_destroy' => '0', 'image' => Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile3.jpg')) } }
     attributes_for(:question, category_ids: category.id,
                               options_attributes: options_params)
   end
@@ -45,7 +46,6 @@ RSpec.describe 'Questions', type: :request do
         Question.count.should eq 0
 
         post '/questions', params: { question: question }
-        # byebug
         Question.count.should eq 1
       end
     end

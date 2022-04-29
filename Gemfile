@@ -35,7 +35,6 @@ gem 'turbo-rails'
 gem 'vanilla_nested', '~> 1.6', '>= 1.6.1'
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
-
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
@@ -60,7 +59,9 @@ gem 'sassc-rails'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
-
+# Image uploader gem
+gem 'carrierwave'
+gem 'mini_magick'
 group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'

@@ -1,5 +1,11 @@
 <div class="wrapper-div">
 	<%= form.text_field :title %>
 	<%= form.check_box :correct%>
+	<%= form.file_field :image%>
+	<% if false%>
+		<% if option.image?%>
+			<label><%= form.check_box :remove_image%>Remove Image</label>
+		<% end %>
+	<% end %>
 	<%= link_to_remove_nested(form, link_text: "remove",undo_link_timeout: 3000, link_classes: 'btn btn-danger') %> <!-- adds a link to add more items -->
 </div>
