@@ -10,6 +10,9 @@ RSpec.describe Option, type: :model do
     it 'has title' do
       expect(subject).to respond_to(:title)
     end
+    it 'has image' do
+      expect(subject).to respond_to(:image)
+    end
   end
   describe 'association' do
     it { should belong_to(:question) }
@@ -26,6 +29,17 @@ RSpec.describe Option, type: :model do
 
     it 'should not accept without question' do
       subject.question = nil
+      expect(subject).to_not be_valid
+    end
+    it 'contain file in jpg/jpeg/png format ' do
+      expect(subject).to be_valid
+    end
+    it 'raises error on uploading pdf file ' do
+      subject.image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/offer.pdf'))
+      expect(subject).to_not be_valid
+    end
+    it 'not contain file of size more than 500KB' do
+      subject.image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/high.png'))
       expect(subject).to_not be_valid
     end
   end

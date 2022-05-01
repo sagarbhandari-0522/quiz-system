@@ -23,10 +23,7 @@ RSpec.describe Question, type: :model do
       subject.title = nil
       expect(subject).to_not be_valid
     end
-    it 'should have many options' do
-      question = build(:question, :with_options)
-      expect(question).to be_valid
-    end
+
     it 'should contain at least 3 option' do
       question = build(:question, :with_options, option_count: 5)
       expect(question).to be_valid
@@ -34,10 +31,6 @@ RSpec.describe Question, type: :model do
     it 'should not accept with less than 3 options' do
       question = build(:question, :with_options, option_count: 2)
       expect(question).to_not be_valid
-    end
-    it 'may have more than one categories ' do
-      question = build(:question, :with_categories)
-      expect(question.categories.length).to be > 1
     end
   end
 end
