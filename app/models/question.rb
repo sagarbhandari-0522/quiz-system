@@ -2,7 +2,7 @@
 
 class MyValidator < ActiveModel::Validator
   def validate(record)
-    record.errors.add :options, 'You must have at least three options' if record.options.length < 3
+    record.errors.add(:options, 'You must have at least three options') if record.options.length < 3
   end
 end
 

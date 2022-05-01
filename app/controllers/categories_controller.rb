@@ -12,44 +12,44 @@ class CategoriesController < ApplicationController
 
   def new
     @category = Category.new
-    authorize @category
+    authorize(@category)
   end
 
   def create
     @category = Category.new(category_params)
-    authorize @category
+    authorize(@category)
     if @category.save
       flash[:success] = 'Category Created Successfully'
-      redirect_to category_path(@category)
+      redirect_to(category_path(@category))
     else
       flash[:danger] = 'Category Created Unsuccessfull'
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   rescue StandardError => e
-    render body: e.message
+    render(body: e.message)
   end
 
   def edit
-    authorize @category
+    authorize(@category)
   end
 
   def update
-    authorize @category
+    authorize(@category)
     if Category.update(category_params)
-      redirect_to category_path(@category)
+      redirect_to(category_path(@category))
     else
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   rescue StandardError => e
-    render body: e.message
+    render(body: e.message)
   end
 
   def destroy
-    authorize @category
-    @category.destroy
-    redirect_to categories_path, status: :see_other
+    authorize(@category)
+    @category.destroy!
+    redirect_to(categories_path, status: :see_other)
   rescue StandardError => e
-    render body: e.message
+    render(body: e.message)
   end
 
   private
@@ -59,6 +59,6 @@ class CategoriesController < ApplicationController
   end
 
   def find_category
-    @category = Category.find_by_id(params[:id])
+    @category = Category.find_by(id: params[:id])
   end
 end

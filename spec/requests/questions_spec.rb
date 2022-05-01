@@ -2,20 +2,35 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Questions', type: :request do
+RSpec.describe('Questions', type: :request) do
   include Devise::Test::IntegrationHelpers
   before { sign_in(user) }
   let(:question) do
     category = create(:category)
     # image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile.jpg'))
-    options_params = { '0' => { 'title' => 'A', 'correct' => '0',
-                                '_destroy' => '0', 'image' => Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile.jpg')) },
-                       '1' => { 'title' => 'A', 'correct' => '0',
-                                '_destroy' => '0', 'image' => Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile2.jpg')) },
-                       '2' => { 'title' => 'A', 'correct' => '0',
-                                '_destroy' => '0', 'image' => Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile3.jpg')) } }
+    options_params = {
+      '0' => {
+        'title' => 'A',
+        'correct' => '0',
+        '_destroy' => '0',
+        'image' => Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile.jpg'))
+      },
+      '1' => {
+        'title' => 'A',
+        'correct' => '0',
+        '_destroy' => '0',
+        'image' => Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile2.jpg'))
+      },
+      '2' => {
+        'title' => 'A',
+        'correct' => '0',
+        '_destroy' => '0',
+        'image' => Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/myfile3.jpg'))
+      }
+    }
     attributes_for(:question, category_ids: category.id,
-                              options_attributes: options_params)
+                              options_attributes: options_params
+    )
   end
   describe 'when request is performed with role admin' do
     let(:user) { create :user, role: 'admin' }
@@ -23,37 +38,37 @@ RSpec.describe 'Questions', type: :request do
     context 'GET /index' do
       it 'should get the categories' do
         get questions_path
-        response.should have_http_status(200)
+        response.should(have_http_status(200))
       end
 
       it 'should render index page' do
         get categories_path
-        response.should render_template('index')
+        response.should(render_template('index'))
       end
     end
     context 'POST/create' do
       it 'should create question' do
         post '/questions', params: { question: question }
-        response.should redirect_to question_path(assigns(:question))
+        response.should(redirect_to(question_path(assigns(:question))))
       end
       it 'should not create question without options' do
         category = create(:category)
         question = attributes_for(:question, category_ids: category.id)
         post '/questions', params: { question: question }
-        response.should have_http_status(:unprocessable_entity)
+        response.should(have_http_status(:unprocessable_entity))
       end
       it 'should create question and increase count' do
-        Question.count.should eq 0
+        Question.count.should(eq(0))
 
         post '/questions', params: { question: question }
-        Question.count.should eq 1
+        Question.count.should(eq(1))
       end
     end
     context 'GET/show' do
       it 'should show a question based on a question id ' do
         post '/questions', params: { question: question }
         get question_path(Question.first)
-        response.should render_template('show')
+        response.should(render_template('show'))
       end
     end
     context 'PATCH/update' do
@@ -68,15 +83,15 @@ RSpec.describe 'Questions', type: :request do
       it 'should delete question of provided id' do
         post '/questions', params: { question: question }
         delete "/questions/#{Question.first.id}"
-        response.should have_http_status(:see_other)
+        response.should(have_http_status(:see_other))
       end
 
       it 'should delete question of provided id' do
-        Question.count.should eq 0
+        Question.count.should(eq(0))
         post '/questions', params: { question: question }
-        Question.count.should eq 1
+        Question.count.should(eq(1))
         delete "/questions/#{Question.first.id}"
-        Question.count.should eq 0
+        Question.count.should(eq(0))
       end
     end
   end
@@ -85,13 +100,13 @@ RSpec.describe 'Questions', type: :request do
     context 'GET /index' do
       it 'should get the categories' do
         get questions_path
-        response.should have_http_status(200)
+        response.should(have_http_status(200))
       end
     end
     context 'POST/create' do
       it 'cannot create question' do
         post '/questions', params: { question: question }
-        response.body.should eq('not allowed to create? this Question')
+        response.body.should(eq('not allowed to create? this Question'))
       end
     end
     context 'GET/show' do
@@ -100,7 +115,7 @@ RSpec.describe 'Questions', type: :request do
         post '/questions', params: { question: question }
         user.role = 'user'
         get question_path(Question.first.id)
-        response.should render_template('show')
+        response.should(render_template('show'))
       end
     end
   end
