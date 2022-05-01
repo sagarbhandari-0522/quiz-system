@@ -1,12 +1,50 @@
 stages:
-    - build
-    - test
+  - build
+  - test
 
-build-job:
-    stage: build
-    script:
-        - echo "Hello"
-test-job:
-    stage: test
-    script:
-        - echo "This job tests something"
+.build:
+  image: ruby:3.0.0
+  cache:
+    key: rat-app-name
+    paths:
+      - apt-cache/
+      - vendor/ruby
+      - node_modules/
+    policy: pull
+  before_script:
+    - gem install bundler --no-document
+    - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
+
+.db:
+  extends: .build
+  services:
+    - postgres:14.2
+  variables:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: root
+    DB_USERNAME: postgres
+    DB_PASSWORD: root
+    DB_HOST: localhost
+    RAILS_ENV: test
+    DISABLE_SPRING: 1
+    BUNDLE_PATH: vendor/bundle
+  before_script:
+    - export APT_CACHE_DIR=`pwd`/apt-cache && mkdir -pv $APT_CACHE_DIR
+    - apt update -qq && apt -o dir::cache::archives="$APT_CACHE_DIR" install -yqq nodejs
+    - gem install bundler --no-document
+    - bundle install --jobs $(nproc) "${FLAGS[@]}" --path=vendor
+    - bundle exec rails db:create db:schema:load --trace
+rspec:
+  extends: .db
+  stage: test
+  cache:
+    policy: pull-push
+  script:
+    - bundle exec rspec --profile 10 --format progress
+rubocop:
+  extends: .build
+  stage: build
+  cache:
+    policy: pull-push
+  script:
+    - bundle exec rubocop
