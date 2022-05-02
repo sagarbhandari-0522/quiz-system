@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   resources :categories
   resources :quizzes
   root 'welcome#index'
+  get '/play_quiz', to: 'quizzes#select_category', as: :play_quiz
 end

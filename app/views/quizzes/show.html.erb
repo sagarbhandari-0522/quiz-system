@@ -1,0 +1,11 @@
+<% i=0%>
+<% @quiz.questions.each do |question| %>
+	<%= question.title%>
+	<h2>Options</h2>
+	<%= render question.options%>
+	<p>Answer: <%=Option.find_by(id:@quiz.user_answer[i]).title%></p>
+	<p>Correct:<%=Option.find_by(id:@quiz.user_answer[i]).correct%></p>
+	<% i=i+1%>
+<%end%>
+<p> Score:<%= @quiz.score%></p>
+<p>Percentage:<%= @quiz.percentage%></p>
