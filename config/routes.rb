@@ -10,5 +10,6 @@ Rails.application.routes.draw do
     resources :options
   end
   resources :categories
+  resources :quizzes
   root 'welcome#index'
 end
