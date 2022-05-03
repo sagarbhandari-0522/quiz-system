@@ -13,4 +13,4 @@
 <%end%>
 <p> Score:<%= @quiz.score%></p>
 <p>Percentage:<%= @quiz.percentage%></p>
-<%= link_to 'Delete Quiz',quiz_path(@quiz), data:{turbo_method: :delete}%>
+<%= link_to 'Delete Quiz',quiz_path(@quiz), data:{turbo_method: :delete} if policy(@quiz).destroy?%>
