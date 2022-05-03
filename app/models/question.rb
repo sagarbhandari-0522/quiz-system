@@ -8,9 +8,9 @@ end
 
 class Question < ApplicationRecord
   include ActiveModel::Validations
-  has_many :question_categories
+  has_many :question_categories, dependent: :destroy
   has_many :categories, through: :question_categories
-  has_many :question_quizzes
+  has_many :question_quizzes, dependent: :destroy
   has_many :quizzes, through: :question_quizzes
   has_many :options, dependent: :destroy
   accepts_nested_attributes_for :options, reject_if: :all_blank, allow_destroy: true
