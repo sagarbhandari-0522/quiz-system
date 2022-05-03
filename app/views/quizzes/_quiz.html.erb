@@ -1,0 +1,4 @@
+<% obj.each do |quiz|%>
+	<p> Quiz <%= quiz.id %></p>
+	<%= link_to 'Show', quiz_path(quiz) %><br>
+<% end%>
