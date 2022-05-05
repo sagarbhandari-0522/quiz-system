@@ -2,8 +2,7 @@ Grover.configure do |config|
   config.options = {
     format: 'A4',
     margin: {
-      top: '5px',
-      bottom: '10cm'
+      top: '5px'
     },
     viewport: {
       width: 640,
@@ -13,7 +12,6 @@ Grover.configure do |config|
     emulate_media: 'screen',
     cache: false,
     timeout: 0, # Timeout in ms. A value of `0` means 'no timeout'
-    launch_args: ['--font-render-hinting=medium', '--lang=ja'], # For Japanese display--lang=add ja
     wait_until: 'domcontentloaded'
   }
 end
