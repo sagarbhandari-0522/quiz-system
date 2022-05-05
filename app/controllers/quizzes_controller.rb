@@ -29,22 +29,24 @@ class QuizzesController < ApplicationController
   def show
     authorize @quiz
     @questions = QuestionQuiz.where(quiz_id: @quiz.id)
-    pdf1 = QuizzesController.new.render_to_string(
-      layout: 'pdf',
-      template: 'quizzes/pdf',
-      locals: { :@quiz => @quiz,
-                :@questions => @questions }
-    )
-    pdf = Grover.new(pdf1).to_pdf
+
     # pdf = grover.to_pdf
     respond_to do |format|
       format.html
+
       format.pdf do
+        QuizSystemMailer.with(user: current_user, quiz: @quiz, question: @questions).welcome_email.deliver_now
+        flash[:success] = 'Mail sent successfully'
+        pdf1 = QuizzesController.new.render_to_string(
+          layout: 'pdf',
+          template: 'quizzes/pdf',
+          locals: { :@quiz => @quiz,
+                    :@questions => @questions }
+        )
+        pdf = Grover.new(pdf1).to_pdf
         send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
       end
     end
-  rescue StandardError => e
-    render body: e.message
   end
 
   def create
