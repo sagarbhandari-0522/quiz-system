@@ -47,6 +47,7 @@ class QuizzesController < ApplicationController
         send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
       end
     end
+    mark_notifications_as_read
   end
 
   def create
@@ -87,5 +88,10 @@ class QuizzesController < ApplicationController
 
   def find_quiz
     @quiz = Quiz.find_by_id(params[:id])
+  end
+
+  def mark_notifications_as_read
+    notifications_to_mark_as_read = @quiz.notifications_as_quiz.where(recipient: current_user)
+    notifications_to_mark_as_read.update_all(read_at: Time.zone.now)
   end
 end

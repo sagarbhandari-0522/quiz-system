@@ -6,4 +6,4 @@
 <%= link_to 'View Categories', categories_path %>
 <%= link_to 'Play Quiz', play_quiz_path%>
 <%= link_to 'View Quiz', quizzes_path %>
-<%= turbo_frame_tag "notifications", src: notifications_path %>
+<%= turbo_frame_tag "notifications", src: notifications_path if current_user.admin? %>
