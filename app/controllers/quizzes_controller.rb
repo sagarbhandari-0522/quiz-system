@@ -1,6 +1,6 @@
 class QuizzesController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_quiz, only: %i[show destroy]
+  before_action :find_quiz, only: %i[show update destroy]
   def index
     @quizzes = if current_user.admin?
                  Quiz.all
@@ -15,52 +15,38 @@ class QuizzesController < ApplicationController
 
   def new
     @quiz = Quiz.new
-    authorize @quiz
-    @questions = QuestionCategory.where(category_id: params[:category_ids].drop(1)).uniq.sample(5)
-    if @questions.count < 5
-      flash[:danger] = "Your selected category dont have enough question \n Please Reselect "
-      redirect_to play_quiz_path
-    end
-    @category = params[:category_ids]
+    category_ids = params[:category_ids].drop(1)
+    @questions = QuestionCategory.where(category_id: category_ids).uniq.sample(5)
+    create(@questions, category_ids)
+    @quiz.save
   rescue StandardError => e
     render body: e.message
   end
 
-  def show
-    authorize @quiz
-    @questions = QuestionQuiz.where(quiz_id: @quiz.id)
+  def create(questions, category)
+    @quiz.user_id = current_user.id
+    @quiz.question_ids = questions.map(&:question_id)
+    @quiz.category_ids = category
+  end
 
-    # pdf = grover.to_pdf
+  def show
+    @questions = QuestionQuiz.where(quiz_id: @quiz.id)
     respond_to do |format|
       format.html
-
       format.pdf do
-        QuizSystemMailer.with(user: current_user, quiz: @quiz, question: @questions).welcome_email.deliver_now
-        flash[:success] = 'Mail sent successfully'
-        pdf1 = QuizzesController.new.render_to_string(
-          layout: 'pdf',
-          template: 'quizzes/pdf',
-          locals: { :@quiz => @quiz,
-                    :@questions => @questions }
-        )
-        pdf = Grover.new(pdf1).to_pdf
-        send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
+        generate_report_pdf('pdf')
       end
     end
     mark_notifications_as_read
   end
 
-  def create
-    @quiz = Quiz.new(quiz_params)
-    @quiz.user_id = current_user.id
-    authorize @quiz
-    @quiz.user_answer = @quiz.user_answer.filter { |a| !a.empty? }
-    @quiz.question_ids = quiz_params[:question_ids][0].split
-    @quiz.category_ids = quiz_params[:category_ids][0].split
-    @quiz.score = score(@quiz.user_answer)
-    @quiz.percentage = percentage(@quiz.score)
-    if @quiz.save
+  def update
+    user_answer = answer
+    scores = score(user_answer)
+    percentage = percentage(scores)
+    if @quiz.update(user_answer: user_answer, percentage: percentage, score: scores)
       flash[:success] = 'Thanks For Playing Quiz'
+      QuizSystemMailer.with(user: current_user, report: generate_report_pdf('mail')).welcome_email.deliver_later
       redirect_to quiz_path(@quiz)
     else
       flash[:danger] = 'You have Missed Something REDO'
@@ -81,11 +67,31 @@ class QuizzesController < ApplicationController
   private
 
   def quiz_params
-    params.require(:quiz).permit(question_ids: [], user_answer: [], category_ids: [])
+    params.require(:quiz).permit(user_answer: [])
+  end
+
+  def generate_report_pdf(a)
+    @questions = QuestionQuiz.where(quiz_id: @quiz.id)
+    pdf1 = QuizzesController.new.render_to_string(
+      layout: 'pdf',
+      template: 'quizzes/pdf',
+      locals: { :@quiz => @quiz,
+                :@questions => @questions }
+    )
+    pdf = Grover.new(pdf1).to_pdf
+    if a == 'pdf'
+      send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
+    else
+      pdf
+    end
   end
 
   def find_quiz
     @quiz = Quiz.find_by_id(params[:id])
+  end
+
+  def answer
+    quiz_params[:user_answer].filter { |a| !a.empty? }
   end
 
   def mark_notifications_as_read
@@ -102,6 +108,6 @@ class QuizzesController < ApplicationController
   end
 
   def percentage(score)
-    score / 5 * 100
+    (score * 100) / @quiz.questions.count
   end
 end
