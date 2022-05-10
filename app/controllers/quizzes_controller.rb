@@ -5,7 +5,7 @@ class QuizzesController < ApplicationController
     @quizzes = if current_user.admin?
                  Quiz.all
                else
-                 Quiz.where(user_id: current_user.id)
+                 current_user.quizzes
                end
   rescue StandardError => e
     render body: e.message
@@ -57,10 +57,8 @@ class QuizzesController < ApplicationController
     @quiz.user_answer = @quiz.user_answer.filter { |a| !a.empty? }
     @quiz.question_ids = quiz_params[:question_ids][0].split
     @quiz.category_ids = quiz_params[:category_ids][0].split
-    @quiz.user_answer.each do |option_id|
-      @quiz.score += 1 if Option.find(option_id).correct?
-    end
-    @quiz.percentage = @quiz.score * 10
+    @quiz.score = score(@quiz.user_answer)
+    @quiz.percentage = percentage(@quiz.score)
     if @quiz.save
       flash[:success] = 'Thanks For Playing Quiz'
       redirect_to quiz_path(@quiz)
@@ -93,5 +91,17 @@ class QuizzesController < ApplicationController
   def mark_notifications_as_read
     notifications_to_mark_as_read = @quiz.notifications_as_quiz.where(recipient: current_user)
     notifications_to_mark_as_read.update_all(read_at: Time.zone.now)
+  end
+
+  def score(answer)
+    scores = 0
+    answer.each do |option_id|
+      scores += 1 if Option.find(option_id).correct
+    end
+    scores
+  end
+
+  def percentage(score)
+    score / 5 * 100
   end
 end
