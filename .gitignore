@@ -33,3 +33,4 @@
 /.byebug_history
 /.env
 /public/uploads
+/node_modules
