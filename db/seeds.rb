@@ -7,14 +7,14 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-users = User.create([
+User.create([
   {
     email: 'admin@gmail.com',
     password: 'password',
     role: 'admin'
   },
   {
-    email: 'user12gmail.com',
+    email: 'user1@gmail.com',
     password: 'password',
     role: 'user'
   },
@@ -24,8 +24,8 @@ users = User.create([
     role: 'user'
   }
 ]
-                   )
-categories = Category.create([
+           )
+Category.create([
   {
     name: 'Sports'
   },
@@ -39,9 +39,9 @@ categories = Category.create([
     name: 'History'
   }
 ]
-                            )
+               )
 que1 = Question.new(title: 'Who is the prime minister of nepal')
-options = que1.options.new([
+que1.options.new([
   {
     title: 'Sher Bahadur Deuwa',
     correct: true
@@ -53,11 +53,11 @@ options = que1.options.new([
     title: 'Kp oli'
   }
 ]
-                          )
+                )
 que1.categories = [Category.first, Category.second]
 que1.save!
 que2 = Question.new(title: 'Which country won FIFA worldcup 2018')
-options = que2.options.new([
+que2.options.new([
   {
     title: 'Brazil'
   },
@@ -73,11 +73,11 @@ options = que2.options.new([
     title: 'Nepal'
   }
 ]
-                          )
+                )
 que2.categories = [Category.last, Category.second]
 que2.save!
 que3 = Question.new(title: 'Who is the father of C programming language')
-options = que3.options.new([
+que3.options.new([
   {
     title: 'Richard Trevithick'
   },
@@ -94,6 +94,6 @@ options = que3.options.new([
 
   }
 ]
-                          )
+                )
 que3.categories = [Category.last, Category.second]
 que3.save!
