@@ -2,13 +2,9 @@ class QuizzesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_quiz, only: %i[show update destroy]
   def index
-    @quizzes = if current_user.admin?
-                 Quiz.all
-               else
-                 current_user.quizzes
-               end
+    @quizzes = current_user.admin? ? Quiz.all : current_user.quizzes
   rescue StandardError => e
-    render body: e.message
+    render(body: e.message)
   end
 
   def select_category; end
@@ -20,7 +16,7 @@ class QuizzesController < ApplicationController
     create(@questions, category_ids)
     @quiz.save
   rescue StandardError => e
-    render body: e.message
+    render(body: e.message)
   end
 
   def create(questions, category)
@@ -47,21 +43,21 @@ class QuizzesController < ApplicationController
     if @quiz.update(user_answer: user_answer, percentage: percentage, score: scores)
       flash[:success] = 'Thanks For Playing Quiz'
       QuizSystemMailer.with(user: current_user, report: generate_report_pdf('mail')).welcome_email.deliver_later
-      redirect_to quiz_path(@quiz)
+      redirect_to(quiz_path(@quiz))
     else
       flash[:danger] = 'You have Missed Something REDO'
-      render :select_category, status: :unprocessable_entity
+      render(:select_category, status: :unprocessable_entity)
     end
   rescue StandardError => e
-    render body: e.message
+    render(body: e.message)
   end
 
   def destroy
-    authorize @quiz
+    authorize(@quiz)
     @quiz.destroy
-    redirect_to quizzes_path, status: :see_other
+    redirect_to(quizzes_path, status: :see_other)
   rescue StandardError => e
-    render body: e.message
+    render(body: e.message)
   end
 
   private
@@ -70,16 +66,18 @@ class QuizzesController < ApplicationController
     params.require(:quiz).permit(user_answer: [])
   end
 
-  def generate_report_pdf(a)
+  def generate_report_pdf(format_is)
     @questions = QuestionQuiz.where(quiz_id: @quiz.id)
     pdf1 = QuizzesController.new.render_to_string(
       layout: 'pdf',
       template: 'quizzes/pdf',
-      locals: { :@quiz => @quiz,
-                :@questions => @questions }
+      locals: {
+        :@quiz => @quiz,
+        :@questions => @questions
+      }
     )
     pdf = Grover.new(pdf1).to_pdf
-    if a == 'pdf'
+    if format_is == 'pdf'
       send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
     else
       pdf
@@ -91,7 +89,7 @@ class QuizzesController < ApplicationController
   end
 
   def answer
-    quiz_params[:user_answer].filter { |a| !a.empty? }
+    quiz_params[:user_answer].filter { |answer| !answer.empty? }
   end
 
   def mark_notifications_as_read

@@ -3,16 +3,6 @@ class QuizSystemMailer < ApplicationMailer
   def welcome_email
     @user = params[:user]
     report = params[:report]
-
-    # @quiz = params[:quiz]
-    # @questions = params[:question]
-    # pdf1 = QuizzesController.new.render_to_string(
-    #   layout: 'pdf',
-    #   template: 'quizzes/pdf',
-    #   locals: { :@quiz => @quiz,
-    #             :@questions => @questions }
-    # )
-    # pdf = Grover.new(pdf1).to_pdf
     attachments['QUIZ.pdf'] = report
     mail(to: @user.email, subject: 'Welcome to Quiz System')
   end

@@ -19,7 +19,7 @@ class QuizNotification < Noticed::Base
   #
   def message
     @user = params[:user]
-    "#{@user.email} played a quiz"
+    "#{@user.email} has performed a quiz"
   end
 
   def url
