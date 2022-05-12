@@ -20,8 +20,8 @@ class QuizNotification < Noticed::Base
   # Define helper methods to make rendering easier.
   #
   def message
-    @user = params[:user]
-    "#{@user.email} has performed a quiz"
+    @email = params[:email]
+    "#{@email} has performed a quiz"
   end
 
   def url

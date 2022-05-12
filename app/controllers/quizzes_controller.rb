@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuizzesController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :find_quiz, only: %i[show update destroy]
   def index
     @quizzes = current_user.admin? ? Quiz.all : current_user.quizzes
@@ -22,7 +22,11 @@ class QuizzesController < ApplicationController
   end
 
   def create(questions, category)
-    @quiz.user_id = current_user.id
+    if current_user.nil?
+      @quiz.email = params[:email]
+    else
+      @quiz.user_id = current_user.id
+    end
     @quiz.question_ids = questions.map(&:question_id)
     @quiz.category_ids = category
   end
@@ -44,7 +48,10 @@ class QuizzesController < ApplicationController
     percentage = percentage(scores)
     if @quiz.update(user_answer: user_answer, percentage: percentage, score: scores)
       flash[:success] = 'Thanks For Playing Quiz'
-      QuizSystemMailer.with(user: current_user, report: generate_report_pdf('mail')).welcome_email.deliver_later
+      byebug
+      QuizSystemMailer.with(email: current_user.email, report: generate_report_pdf('mail')).welcome_email.deliver_later unless current_user.nil?
+      QuizSystemMailer.with(email: @quiz.email, report: generate_report_pdf('mail')).welcome_email.deliver_later if current_user.nil?
+
       redirect_to(quiz_path(@quiz))
     else
       flash[:danger] = 'You have Missed Something REDO'
@@ -99,9 +106,9 @@ class QuizzesController < ApplicationController
     notifications_to_mark_as_read.update_all(read_at: Time.zone.now)
   end
 
-  def score(answer)
+  def score(answers)
     scores = 0
-    answer.each do |option_id|
+    answers.each do |option_id|
       scores += 1 if Option.find(option_id).correct
     end
     scores

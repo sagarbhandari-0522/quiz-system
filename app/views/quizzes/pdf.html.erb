@@ -1,17 +1,17 @@
-<p>Thanks user having<b> email:</b> <%=@quiz.user.email%> for playing Quiz on <b>Categories </b>
+<p>Thanks user having  for playing Quiz on <b>Categories </b>
 	<%= quiz_categories(@quiz)%>
 </p>
 <h3>Questions</h3>
-<% @questions.each_with_index do |q,i| %>
+<% @questions.each_with_index do |q,index| %>
 	<%question=Question.find(q.question_id)%>
 	<%= question.title%><br>
 	<b>Options:</b>
 	<%= render question.options%>
-	<% while Option.find_by(id:@quiz.user_answer[i])==nil%>
-		<%i=i+1%>
+	<% while Option.find_by(id:@quiz.user_answer[index])==nil%>
+		<%index=index+1%>
 	<% end%>
-	<p><b>Answer: </b><%=Option.find(@quiz.user_answer[i]).title%></p>
-	<p><b>Correct:</b><%=Option.find(@quiz.user_answer[i]).correct%></p>
+	<p><b>Answer: </b><%=Option.find(@quiz.user_answer[index]).title%></p>
+	<p><b>Correct:</b><%=Option.find(@quiz.user_answer[index]).correct%></p>
 <%end%>
 <h4> <b><i>Score:</i></b><%= @quiz.score%></h4>
 <h4><b></i>Percentage:</i></b><%= @quiz.percentage%></h4>

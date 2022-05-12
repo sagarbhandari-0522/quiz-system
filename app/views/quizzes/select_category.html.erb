@@ -1,5 +1,11 @@
 <p> Choose Category</p>
 <%= form_with url: "/quizzes/new",method: :get do |form| %>
+	<%if current_user.nil?%>
+		<div>
+			<%= form.label :email%><br>
+			<%= form.email_field :email,required: true%>
+		</div>
+	<%end%>
 	<div>
 		<%= form.collection_check_boxes :category_ids, Category.all, :id, :name%>
 	</div>
