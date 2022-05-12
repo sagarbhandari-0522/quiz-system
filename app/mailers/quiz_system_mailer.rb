@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class QuizSystemMailer < ApplicationMailer
   default from: 'sagarvandari@gmail.com'
   def welcome_email

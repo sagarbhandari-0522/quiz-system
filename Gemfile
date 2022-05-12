@@ -96,4 +96,4 @@ group :test do
   gem 'webdrivers'
 end
 gem 'grover'
-gem "noticed", "~> 1.5"
+gem 'noticed', '~> 1.5'

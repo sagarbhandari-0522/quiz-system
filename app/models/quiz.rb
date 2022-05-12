@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Quiz < ApplicationRecord
   has_noticed_notifications
   has_many :question_quizzes

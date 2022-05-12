@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class QuizPolicy < ApplicationPolicy
   attr_reader :user, :quiz
 

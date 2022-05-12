@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class QuizzesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_quiz, only: %i[show update destroy]
@@ -14,7 +16,7 @@ class QuizzesController < ApplicationController
     category_ids = params[:category_ids].drop(1)
     @questions = QuestionCategory.where(category_id: category_ids).uniq.sample(5)
     create(@questions, category_ids)
-    @quiz.save
+    @quiz.save!
   rescue StandardError => e
     render(body: e.message)
   end
@@ -54,7 +56,7 @@ class QuizzesController < ApplicationController
 
   def destroy
     authorize(@quiz)
-    @quiz.destroy
+    @quiz.destroy!
     redirect_to(quizzes_path, status: :see_other)
   rescue StandardError => e
     render(body: e.message)
@@ -85,7 +87,7 @@ class QuizzesController < ApplicationController
   end
 
   def find_quiz
-    @quiz = Quiz.find_by_id(params[:id])
+    @quiz = Quiz.find_by(id: params[:id])
   end
 
   def answer

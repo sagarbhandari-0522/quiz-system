@@ -24,12 +24,12 @@ users = [
     role: 'user'
   }
 ]
-puts '************Creating User **********'
+Rails.logger.debug('************Creating User **********')
 users.each do |user|
-  User.create(email: user[:email], password: user[:password], role: user[:role])
+  User.create!(email: user[:email], password: user[:password], role: user[:role])
 end
 user_id = User.all.map(&:id)
-puts '*************User Created ***********'
+Rails.logger.debug('*************User Created ***********')
 categories = [
   {
     name: 'Sports'
@@ -44,13 +44,13 @@ categories = [
     name: 'History'
   }
 ]
-puts '***************Creating Category ************'
+Rails.logger.debug('***************Creating Category ************')
 categories.each do |category|
-  Category.create(name: category[:name])
+  Category.create!(name: category[:name])
 end
 category_id = Category.all.map(&:id)
-puts '****************Category Created ************'
-puts '**************Creating Question with Options************'
+Rails.logger.debug('****************Category Created ************')
+Rails.logger.debug('**************Creating Question with Options************')
 questions = [
   [
     'Who is the prime minister of nepal', [1, 2],
@@ -574,6 +574,6 @@ questions = [
 
 ]
 questions.each do |question, category_ids, options_attributes|
-  Question.create(title: question, category_ids: category_ids, options_attributes: options_attributes)
+  Question.create!(title: question, category_ids: category_ids, options_attributes: options_attributes)
 end
-puts '*************Questions created with its options*********'
+Rails.logger.debug('*************Questions created with its options*********')
