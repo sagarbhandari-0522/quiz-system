@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class QuizzesController < ApplicationController
-  # before_action :authenticate_user!
   before_action :find_quiz, only: %i[show update destroy]
   def index
     @quizzes = current_user.admin? ? Quiz.all : current_user.quizzes
@@ -12,23 +11,16 @@ class QuizzesController < ApplicationController
   def select_category; end
 
   def new
-    @quiz = Quiz.new
-    category_ids = params[:category_ids].drop(1)
-    @questions = QuestionCategory.where(category_id: category_ids).uniq.sample(5)
-    create(@questions, category_ids)
-    @quiz.save!
-  rescue StandardError => e
-    render(body: e.message)
+    @questions = []
+    @questions.push(categories_question)
+    created if @questions.flatten!
+    @quiz
   end
 
-  def create(questions, category)
-    if current_user.nil?
-      @quiz.email = params[:email]
-    else
-      @quiz.user_id = current_user.id
-    end
-    @quiz.question_ids = questions.map(&:question_id)
-    @quiz.category_ids = category
+  def created
+    @quiz = Quiz.new
+    @quiz.category_ids = params[:category_ids].drop(1)
+    question_quiz(@quiz.id) if @quiz.save
   end
 
   def show
@@ -36,7 +28,7 @@ class QuizzesController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        generate_report_pdf('pdf')
+        generate_report_pdf('report_pdf')
       end
     end
     mark_notifications_as_read
@@ -48,10 +40,8 @@ class QuizzesController < ApplicationController
     percentage = percentage(scores)
     if @quiz.update(user_answer: user_answer, percentage: percentage, score: scores)
       flash[:success] = 'Thanks For Playing Quiz'
-      byebug
       QuizSystemMailer.with(email: current_user.email, report: generate_report_pdf('mail')).welcome_email.deliver_later unless current_user.nil?
       QuizSystemMailer.with(email: @quiz.email, report: generate_report_pdf('mail')).welcome_email.deliver_later if current_user.nil?
-
       redirect_to(quiz_path(@quiz))
     else
       flash[:danger] = 'You have Missed Something REDO'
@@ -86,7 +76,7 @@ class QuizzesController < ApplicationController
       }
     )
     pdf = Grover.new(pdf1).to_pdf
-    if format_is == 'pdf'
+    if format_is == 'report_pdf'
       send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
     else
       pdf
@@ -116,5 +106,15 @@ class QuizzesController < ApplicationController
 
   def percentage(score)
     (score * 100) / @quiz.questions.count
+  end
+
+  def question_quiz(quiz_id)
+    @questions.each do |question|
+      QuestionQuiz.create(quiz_id: quiz_id, question_id: question.id)
+    end
+  end
+
+  def categories_question
+    Category.includes(:questions).find(params[:category_ids].drop(1)).map(&:questions).flatten!.uniq.sample(5)
   end
 end

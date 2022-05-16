@@ -1,9 +1,8 @@
 <%= form_with model: @quiz do |form|%>
-	<% @questions.each do|question|%>
-		<% que=Question.find(question.question_id)%>
-		<%= que.title%>
+	<% @quiz.questions.each do|question|%>
+		<%= question.title%>
 		<h2>Options</h2>
-		<%= form.collection_check_boxes :user_answer, que.options.all, :id, :title%>
+		<%= form.collection_check_boxes :user_answer, question.options.all, :id, :title%>
 		<br>
 	<% end%>
 	<div>
