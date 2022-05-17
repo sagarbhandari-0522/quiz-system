@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: %i[show edit update destroy]
   def index
-    @pagy, @questions = pagy(Question.all, items: 2)
+    @pagy, @questions = pagy(Question.all, items: 8)
   rescue StandardError => e
     render(body: e.message)
   end

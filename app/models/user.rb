@@ -21,4 +21,6 @@ class User < ApplicationRecord
     user
   end
   enum role: { user: 0, admin: 1 }
+  has_many :quizzes
+  has_many :notifications, as: :recipient
 end

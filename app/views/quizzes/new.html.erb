@@ -1,0 +1,11 @@
+<%= form_with model: @quiz do |form|%>
+	<% @quiz.questions.each do|question|%>
+		<%= question.title%>
+		<h2>Options</h2>
+		<%= form.collection_check_boxes :user_answer, question.options.all, :id, :title%>
+		<br>
+	<% end%>
+	<div>
+		<%=form.submit%>
+	</div>
+<% end%>

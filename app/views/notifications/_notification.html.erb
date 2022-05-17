@@ -1,0 +1,16 @@
+<li>
+	<div>
+		<p>
+			<%= notification.to_notification.message %>
+		</p>
+		<div>
+			<p>
+				Received on <%= notification.created_at.to_date %>
+			</p>
+			<p>
+				Status: <%= notification.read? ? "Read" : "Unread" %>
+			</p>
+			<%= link_to 'View',notification.to_notification.url %>
+		</div>
+	</div>
+</li>
