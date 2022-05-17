@@ -19,6 +19,8 @@ class QuizzesController < ApplicationController
 
   def created
     @quiz = Quiz.new
+    @quiz.email = params[:email] if current_user.nil?
+    @quiz.user_id = current_user.id unless current_user.nil?
     @quiz.category_ids = params[:category_ids].drop(1)
     question_quiz(@quiz.id) if @quiz.save
   end
@@ -39,16 +41,11 @@ class QuizzesController < ApplicationController
     scores = score(user_answer)
     percentage = percentage(scores)
     if @quiz.update(user_answer: user_answer, percentage: percentage, score: scores)
-      flash[:success] = 'Thanks For Playing Quiz'
-      QuizSystemMailer.with(email: current_user.email, report: generate_report_pdf('mail')).welcome_email.deliver_later unless current_user.nil?
-      QuizSystemMailer.with(email: @quiz.email, report: generate_report_pdf('mail')).welcome_email.deliver_later if current_user.nil?
-      redirect_to(quiz_path(@quiz))
+      update_success
     else
       flash[:danger] = 'You have Missed Something REDO'
       render(:select_category, status: :unprocessable_entity)
     end
-  rescue StandardError => e
-    render(body: e.message)
   end
 
   def destroy
@@ -67,7 +64,7 @@ class QuizzesController < ApplicationController
 
   def generate_report_pdf(format_is)
     @questions = QuestionQuiz.where(quiz_id: @quiz.id)
-    pdf1 = QuizzesController.new.render_to_string(
+    quiz_pdf = QuizzesController.new.render_to_string(
       layout: 'pdf',
       template: 'quizzes/pdf',
       locals: {
@@ -75,7 +72,7 @@ class QuizzesController < ApplicationController
         :@questions => @questions
       }
     )
-    pdf = Grover.new(pdf1).to_pdf
+    pdf = Grover.new(quiz_pdf).to_pdf
     if format_is == 'report_pdf'
       send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
     else
@@ -116,5 +113,19 @@ class QuizzesController < ApplicationController
 
   def categories_question
     Category.includes(:questions).find(params[:category_ids].drop(1)).map(&:questions).flatten!.uniq.sample(5)
+  end
+
+  def update_success
+    @guest_email = @quiz.email || current_user.email
+    send_email
+    flash[:success] = 'Thanks For Playing Quiz'
+    redirect_to(quiz_path(@quiz))
+  end
+
+  def send_email
+    QuizSystemMailer.with(
+      email: @guest_email,
+      report: generate_report_pdf('mail')
+    ).welcome_email.deliver_later
   end
 end
