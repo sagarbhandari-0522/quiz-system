@@ -31,6 +31,7 @@ AllCops:
     - '**/spec_helper.rb'
     - 'node_modules/**/*'
     - 'bin/*'
+    - 'spec/**/*'
 
 ###########################################################
 ###################### RuboCop ############################
@@ -420,3 +421,7 @@ Style/StringConcatenation:
 
 Style/SwapValues: # (new in 1.1)
   Enabled: true
+
+Style/MissingElse:
+  Exclude:
+    - 'config/environments/production.rb'

@@ -90,7 +90,7 @@ class QuizzesController < ApplicationController
 
   def mark_notifications_as_read
     notifications_to_mark_as_read = @quiz.notifications_as_quiz.where(recipient: current_user)
-    notifications_to_mark_as_read.update_all(read_at: Time.zone.now)
+    notifications_to_mark_as_read.update!(read_at: Time.zone.now)
   end
 
   def score(answers)
@@ -107,7 +107,7 @@ class QuizzesController < ApplicationController
 
   def question_quiz(quiz_id)
     @questions.each do |question|
-      QuestionQuiz.create(quiz_id: quiz_id, question_id: question.id)
+      QuestionQuiz.create!(quiz_id: quiz_id, question_id: question.id)
     end
   end
 
