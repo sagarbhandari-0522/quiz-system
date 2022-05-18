@@ -2,7 +2,7 @@
 
 class Quiz < ApplicationRecord
   has_noticed_notifications
-  has_many :question_quizzes
+  has_many :question_quizzes, dependent: :destroy
   has_many :questions, through: :question_quizzes
   has_and_belongs_to_many :categories
   belongs_to :user, optional: true

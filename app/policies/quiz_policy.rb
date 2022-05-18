@@ -4,6 +4,7 @@ class QuizPolicy < ApplicationPolicy
   attr_reader :user, :quiz
 
   def initialize(user, quiz)
+    super
     @user = user
     @quiz = quiz
   end

@@ -13,14 +13,14 @@ class User < ApplicationRecord
       user.uid = auth.uid
       user.save!
     else
-      user = User.where(provider: auth.provider, uid: auth.uid).first_or_create! do |user|
-        user.email = auth.info.email
-        user.password = Devise.friendly_token[0, 20]
+      user = User.where(provider: auth.provider, uid: auth.uid).first_or_create! do |user_gmail|
+        user_gmail.email = auth.info.email
+        user_gmail.password = Devise.friendly_token[0, 20]
       end
     end
     user
   end
   enum role: { user: 0, admin: 1 }
-  has_many :quizzes
-  has_many :notifications, as: :recipient
+  has_many :quizzes, dependent: :destroy
+  has_many :notifications, as: :recipient, dependent: :destroy
 end

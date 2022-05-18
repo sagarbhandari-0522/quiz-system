@@ -4,6 +4,7 @@ class CategoryPolicy < ApplicationPolicy
   attr_reader :user, :question
 
   def initialize(user, category)
+    super
     @user = user
     @category = category
   end

@@ -28,7 +28,7 @@ Rails.logger.debug('************Creating User **********')
 users.each do |user|
   User.create!(email: user[:email], password: user[:password], role: user[:role])
 end
-user_id = User.all.map(&:id)
+# user_id = User.all.map(&:id)
 Rails.logger.debug('*************User Created ***********')
 categories = [
   {
@@ -48,7 +48,7 @@ Rails.logger.debug('***************Creating Category ************')
 categories.each do |category|
   Category.create!(name: category[:name])
 end
-category_id = Category.all.map(&:id)
+# category_id = Category.all.map(&:id)
 Rails.logger.debug('****************Category Created ************')
 Rails.logger.debug('**************Creating Question with Options************')
 questions = [

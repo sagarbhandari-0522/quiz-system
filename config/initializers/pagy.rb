@@ -17,14 +17,16 @@
 
 # Other Variables
 # See https://ddnexus.github.io/pagy/api/pagy#other-variables
-Pagy::DEFAULT[:size] = [1, 2, 2, 1] # default
+# default
+Pagy::DEFAULT[:size] = [1, 2, 2, 1]
 # Pagy::DEFAULT[:page_param] = :page                           # default
 # The :params can be also set as a lambda e.g ->(params){ params.exclude('useless').merge!('custom' => 'useful') }
 # Pagy::DEFAULT[:params]     = {}                              # default
 # Pagy::DEFAULT[:fragment]   = '#fragment'                     # example
 # Pagy::DEFAULT[:link_extra] = 'data-remote="true"'            # example
 # Pagy::DEFAULT[:i18n_key]   = 'pagy.item_name'                # default
-Pagy::DEFAULT[:cycle] = true # example
+# example
+Pagy::DEFAULT[:cycle] = true
 
 # Extras
 # See https://ddnexus.github.io/pagy/extras
@@ -168,7 +170,8 @@ require 'pagy/extras/bootstrap'
 # Overflow extra: Allow for easy handling of overflowing pages
 # See https://ddnexus.github.io/pagy/extras/overflow
 require 'pagy/extras/overflow'
-Pagy::DEFAULT[:overflow] = :last_page # default  (other options: :last_page and :exception)
+# default  (other options: :last_page and :exception)
+Pagy::DEFAULT[:overflow] = :last_page
 
 # Support extra: Extra support for features like: incremental, infinite, auto-scroll pagination
 # See https://ddnexus.github.io/pagy/extras/support

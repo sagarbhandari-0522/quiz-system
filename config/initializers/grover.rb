@@ -13,7 +13,8 @@ Grover.configure do |config|
     prefer_css_page_size: true,
     emulate_media: 'screen',
     cache: false,
-    timeout: 0, # Timeout in ms. A value of `0` means 'no timeout'
+    # Timeout in ms. A value of `0` means 'no timeout'
+    timeout: 0,
     wait_until: 'domcontentloaded'
   }
 end
