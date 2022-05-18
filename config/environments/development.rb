@@ -49,7 +49,7 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
 
@@ -71,13 +71,14 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
+    address: 'smtp-relay.sendinblue.com',
     port: 587,
-    address: 'smtp.gmail.com',
-    user_name: 'sagarvandari1@gmail.com',
-    password: 'jdtvrynbhvircgax',
-    authentication: :plain,
+    user_name: ENV['SEND_IN_BLUE_USERNAME'],
+    password: ENV['SEND_IN_BLUE_PASSWORD'],
+    authentication: 'plain',
     enable_starttls_auto: true
   }
   # Raises error for missing translations.
