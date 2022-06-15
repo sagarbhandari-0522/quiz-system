@@ -1,15 +1,20 @@
-<p> Choose Category</p>
-<%= form_with url: "/quizzes/new",method: :get do |form| %>
-	<%if current_user.nil?%>
-		<div>
-			<%= form.label :email%><br>
-			<%= form.email_field :email,required: true%>
+<div>
+	<!-- Page Heading -->
+	<div class="d-sm-flex align-items-center justify-content-center mb-4">
+		<h1 class="h3 mb-0 text-gray-800">Choose Categories</h1>
+	</div>
+	<%= form_with url: "/quizzes/new",method: :get,class:'language-check' do |form| %>
+		<%if current_user.nil?%>
+			<div>
+				<%= form.label :email%><br>
+				<%= form.email_field :email,required: true%>
+			</div>
+		<%end%>
+		<div class="card container p-5 col-md-8 mb-4 form-check-label addQuestion">
+			<%= form.collection_check_boxes :category_ids, Category.all, :id, :name%>
+			<div>
+				<%= form.submit data:{turbo:false}, class:'float-right btn btn-sm btn-primary'%>
+			</div>
 		</div>
-	<%end%>
-	<div>
-		<%= form.collection_check_boxes :category_ids, Category.all, :id, :name%>
-	</div>
-	<div>
-		<%= form.submit data:{turbo:false}%>
-	</div>
-<% end %>
+	<% end %>
+</div>

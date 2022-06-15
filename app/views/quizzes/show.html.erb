@@ -1,18 +1,31 @@
-<% i=0%>
-<% @questions.each do |q| %>
-	<%question=Question.find(q.question_id)%>
-	<%= question.title%>
-	<h2>Options</h2>
-	<%= render question.options%>
-	<% while Option.find_by(id:@quiz.user_answer[i])==nil%>
-		<%i=i+1%>
-	<% end%>
-	<p>Answer: <%=Option.find(@quiz.user_answer[i]).title%></p>
-	<p>Correct:<%=Option.find(@quiz.user_answer[i]).correct%></p>
-	<% i=i+1%>
-<%end%>
-<p> Score:<%= @quiz.score%></p>
-<p>Percentage:<%= @quiz.percentage%></p>
-<%unless current_user.nil?%>
-	<%= link_to 'Delete Quiz',quiz_path(@quiz), data:{turbo_method: :delete} if policy(@quiz).destroy?%>
-<%end%>
+<div class='card p-4 m-2'>
+	<% @questions.each_with_index do |question,index| %>
+		<h6><%="#{index+1}. #{question.title}"%></h6>
+		<b class="my-2">Options</b>
+		<div class='mx-5'>
+			<%= render question.options%>
+		</div>
+		<h6 class='mx-2 my-2'>Answer:</h6>
+		<div class='mx-4'>
+			<% if Option.find(@quiz.user_answer[index]).correct%>
+				<li class="card mb-1 correct-quiz-answer">
+					<p class='p-2 mx-4 my-auto'><input class= "form-check-input"type="checkbox" checked disabled>
+						<%= Option.find(@quiz.user_answer[index]).title %>
+					</li>
+				<% else %>
+					<li class="card mb-2 incorrect-quiz-answer">
+						<p class='p-2 mx-4 my-auto'><input  class= "form-check-input" type="checkbox" unchecked disabled>
+							<%= Option.find(@quiz.user_answer[index]).title %>
+						</p>
+					</li>
+				<% end %>
+			</div>
+		<%end%>
+		<div class='mt-5'>
+			<h5 class="font-italic">Score:	<%= @quiz.score%></h5>
+			<h5 class="font-italic">Percentage: <%= @quiz.percentage%></h5>
+		</div>
+		<%unless current_user.nil?%>
+			<%= button_to 'Delete Quiz',quiz_path(@quiz),method: :delete, class:'btn btn-danger btn-sm float-right' if policy(@quiz).destroy?%>
+		<%end%>
+	</div>

@@ -1,11 +1,6 @@
-<div class="wrapper-div">
-	<%= form.text_field :title %>
-	<%= form.check_box :correct%>
-	<%= form.file_field :image%>
-	<% if false%>
-		<% if option.image?%>
-			<label><%= form.check_box :remove_image%>Remove Image</label>
-		<% end %>
-	<% end %>
-	<%= link_to_remove_nested(form, link_text: "remove",undo_link_timeout: 3000, link_classes: 'btn btn-danger') %> <!-- adds a link to add more items -->
+<div class="form wrapper-div mb-3">
+	<%= form.text_field :title ,placeholder:'Enter Option...',class:'form-control w-50 d-inline mx-2'%>
+	<%= form.check_box :correct,class:'mx-2'%>
+	<%= form.file_field :image,class:'mx-2'%>
+	<%= link_to_remove_nested(form, link_text: "Delete",undo_link_timeout: 3000, link_classes: 'btn btn-sm btn-danger') %> <!-- adds a link to add more items -->
 </div>

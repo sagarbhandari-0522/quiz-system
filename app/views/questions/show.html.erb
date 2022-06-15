@@ -1,12 +1,24 @@
-<%= @question.title%>
-<h2>Options</h2>
-<%= render @question.options%>
-<% unless @option[0].nil?%>
-	<p> Answer:
-		<%=@option[0][:title]%>
-		<% if @option[0].image?%>
-			<%= image_tag(@option[0].image.thumb.url,alt:'Image')%></p>
-	<% end%>
-<% end %>
-<%= link_to 'Edit Question', edit_question_path(@question) if policy(@question).edit?%>
-<%= link_to 'Delete Question',question_path(@question), data:{turbo_method: :delete}if policy(@question).destroy?%>
+<div class="card mx-3">
+	<div class="card-header text-center">
+		<% @question.categories.each do |category|%>
+			<b>	<%= category.name + " "%><b>
+				<%end%>
+			</div>
+			<div class="card-body">
+				<h5 class="card-title">	<%= @question.title%></h5>
+				<ol>
+					<div class="row">
+						<%= render @question.options%>
+					</div>
+				</ol>
+				<% unless @option[0].nil?%>
+				<% end %>
+			</div>
+			<div class="card-footer text-muted">
+				<%if policy(@question).edit?%>
+					<button class="button btn-primary" role="button"><%= link_to 'Edit Question', edit_question_path(@question),class:"text-light text-decoration-none"%></button>
+					<button class="button btn-danger"><%= link_to 'Delete Question', question_path(@question), data:{turbo_method: :delete},class:"text-light text-decoration-none"%></button>
+				<% end %>
+				<button class="button btn-success"><%= link_to 'Back', questions_path,class:"text-light text-decoration-none" %></button>
+			</div>
+		</div>

@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
 
   before_action :find_category, only: %i[show edit update destroy]
   def index
-    @pagy, @categories = pagy(Category.all, items: 2)
+    @categories = Category.all
   end
 
   def show; end

@@ -1,11 +1,24 @@
-<%= form_with model: @quiz do |form|%>
-	<% @quiz.questions.each do|question|%>
-		<%= question.title%>
-		<h2>Options</h2>
-		<%= form.collection_check_boxes :user_answer, question.options.all, :id, :title%>
-		<br>
-	<% end%>
-	<div>
-		<%=form.submit%>
+<div class='mx-2'>
+	<%= form_with model: @quiz do |form|%>
+		<i=0>
+			<% @quiz.questions.each_with_index do|question,index|%>
+				<div class="my-1 font-weight-bold">
+					<%= "#{index+1}.)"%>
+					<%= question.title%>
+				</div>
+				<div class="row">
+					<div class="col-5">
+						<% question.options.each do |answer|%>
+							<div class='col-6 card mb-1 incorrect-option'>
+								<p class='p-2 mx-2 my-auto form-check mx-3'><%= form.radio_button question.id, answer.id,required: true, class: 'form-check-input p-2 ' %>
+									<%= label "quiz_#{question.id}_".to_s,answer.id, answer.title, class: 'form-check-label'%></p>
+							</div>
+						<% end %>
+					</div>
+				</div>
+			<% end%>
+			<div>
+				<%=form.submit 'Submit Quiz',  class:'btn btn-primary float-right'%>
+			</div>
+		<% end%>
 	</div>
-<% end%>

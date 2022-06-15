@@ -1,20 +1,27 @@
-<h1><%= a%></h1>
 <%= render 'shared/errors',obj:@question,a:'question' %>
-<%= form_for @question do|form|%>
-	<div>
-		<%= form.label :title%><br>
-		<%= form.text_field :title%>
+<div class="card p-3 addQuestion mt-2 px-5 mx-5">
+	<div class= 'mx-auto mb-3'>
+		<h4><%= a%></h4>
 	</div>
-	<div>
-		<%= form.collection_check_boxes :category_ids, Category.all, :id, :name%>
-	</div>
-	<%= link_to_add_nested(form, :options, '#options',link_classes: 'btn btn-primary',partial:'option_fields') %>
-	<div id='options'>
-		<%= form.fields_for :options do |option_f| %>
-			<%= render 'option_fields', form: option_f %>
-		<% end %>
-	</div>
-	<div>
-		<%= form.submit data: {turbo:false}%>
-	</div>
-<%end %>
+	<%= form_for @question do|form|%>
+		<div class='my-2'>
+			<%= form.text_field :title, class: "form-control w-75", placeholder:'Enter Question ....'%>
+		</div>
+		<div class='ml-3 form-check my-3'>
+			<%= form.collection_check_boxes(:category_ids, Category.all, :id, :name) do |b| %>
+				<%= b.label(class:"form-check-label mx-3")do%>
+					<%=b.check_box(class:"form-check-input") + " " +b.text%>
+				<%end%>
+			<% end %>
+		</div>
+		<div id='options'>
+			<%= form.fields_for :options do |option_f| %>
+				<%= render 'option_fields', form: option_f %>
+			<% end %>
+		</div>
+		<%= link_to_add_nested(form, :options, '#options',link_classes: 'btn btn-sm btn-secondary mb-2',partial:'option_fields') %>
+		<div class='float-right'>
+			<%= form.submit data: {turbo:false},class:'btn btn-sm btn-primary'%>
+		</div>
+	<%end %>
+</div>

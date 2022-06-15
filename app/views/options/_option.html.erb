@@ -1,4 +1,35 @@
-<%= link_to image_tag(option.image.thumb.url,alt:'Image'),option.image.url if option.image? %>
-<p>
-	<%= option.title %>
-</p>
+<%if option.image?%>
+	<div class='col-5'>
+		<% if option.correct%>
+			<li class="card mb-2 correct-option-image" >
+				<%= link_to image_tag(option.image.thumb.url,alt:'Image',size: "350x300"),option.image.url, class: "img-fluid p-3" if option.image? %>
+				<p class='p-1 mx-4'><input class= "form-check-input"type="checkbox" checked disabled>
+					<%= option.title %>
+				</p>
+			</li>
+		<%else%>
+			<li class="card mb-2 incorrect-option-image">
+				<%= link_to image_tag(option.image.thumb.url,alt:'Image',size: "350x300"),option.image.url, class: "img-fluid p-3"  if option.image? %>
+				<p class='p-1 mx-4'><input  class= "form-check-input" type="checkbox" unchecked disabled>
+					<%= option.title %>
+				</p>
+			</li>
+		<% end %>
+	</div>
+<%else%>
+	<div class='row'>
+		<% if option.correct%>
+			<li class="card mb-1 correct-option">
+				<p class='py-2 mx-4 my-auto'><input class= "form-check-input"type="checkbox" checked disabled>
+					<%= option.title %>
+				</p>
+			</li>
+		<%else%>
+			<li class="card mb-1 incorrect-option">
+				<p class='py-2 mx-4 my-auto'><input  class= "form-check-input" type="checkbox" unchecked disabled>
+					<%= option.title %>
+				</p>
+			</li>
+		<% end %>
+	</div>
+<%end%>

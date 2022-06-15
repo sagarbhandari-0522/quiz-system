@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuizzesController < ApplicationController
+  layout :resolve_layout
   before_action :find_quiz, only: %i[show update destroy]
   def index
     @quizzes = current_user.admin? ? Quiz.all : current_user.quizzes
@@ -11,10 +12,15 @@ class QuizzesController < ApplicationController
   def select_category; end
 
   def new
-    @questions = []
-    @questions.push(categories_question)
-    created if @questions.flatten!
-    @quiz
+    if params[:category_ids].length == 1
+      flash[:danger] = 'Please Select at least One Category'
+      redirect_to(play_quiz_path)
+    else
+      @questions = []
+      @questions.push(categories_question)
+      created if @questions.flatten!
+      @quiz
+    end
   end
 
   def created
@@ -26,7 +32,7 @@ class QuizzesController < ApplicationController
   end
 
   def show
-    @questions = QuestionQuiz.where(quiz_id: @quiz.id)
+    @questions = @quiz.questions
     respond_to do |format|
       format.html
       format.pdf do
@@ -58,9 +64,9 @@ class QuizzesController < ApplicationController
 
   private
 
-  def quiz_params
-    params.require(:quiz).permit(user_answer: [])
-  end
+  # def quiz_params
+  #   params.require(:quiz).permit(user_answer: [])
+  # end
 
   def generate_report_pdf(format_is)
     @questions = QuestionQuiz.where(quiz_id: @quiz.id)
@@ -85,7 +91,8 @@ class QuizzesController < ApplicationController
   end
 
   def answer
-    quiz_params[:user_answer].filter { |answer| !answer.empty? }
+    #  quiz_params[:user_answer].filter { |answer| !answer.empty? }
+    params[:quiz].values
   end
 
   def mark_notifications_as_read
@@ -112,7 +119,7 @@ class QuizzesController < ApplicationController
   end
 
   def categories_question
-    Category.includes(:questions).find(params[:category_ids].drop(1)).map(&:questions).flatten!.uniq.sample(5)
+    Category.includes(:questions).find(params[:category_ids].drop(1)).map(&:questions).flatten!.uniq.sample(8)
   end
 
   def update_success
@@ -127,5 +134,13 @@ class QuizzesController < ApplicationController
       email: @guest_email,
       report: generate_report_pdf('mail')
     ).welcome_email.deliver_later
+  end
+
+  def resolve_layout
+    if current_user
+      'application'
+    else
+      'devise'
+    end
   end
 end

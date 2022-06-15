@@ -1,0 +1,164 @@
+#logo {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: larger;
+
+  &:hover {
+    color: bisque;
+  }
+}
+
+.addQuestion {
+  background-color: #CDF0EA;
+}
+
+.addCategory {
+  background-color: #EFEFEF;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.correct-option-image {
+  width: 25rem;
+  border: 1px solid #B5ECC1;
+  border-radius: 25px;
+  background-color: #B5ECC1
+}
+
+.incorrect-option-image {
+  width: 25rem;
+  border: 1px solid #FFD6CE;
+  border-radius: 25px;
+  background-color: #FFD6CE
+}
+
+.correct-option {
+  width: 18rem;
+  background-color: #B5ECC1;
+  border: 1px solid #B5ECC1;
+  border-radius: 25px;
+}
+
+.incorrect-option {
+  width: 18rem;
+  background-color: #FFD6CE;
+  border: 1px solid #FFD6CE;
+  border-radius: 25px
+}
+
+.correct-quiz-answer {
+  width: 18rem;
+  background-color: #3EC70B;
+  border: 1px solid #3EC70B;
+  border-radius: 25px;
+}
+
+.incorrect-quiz-answer {
+  width: 18rem;
+  background-color: #990000;
+  border: 1px solid #990000;
+  border-radius: 25px;
+}
+
+.jumbotron {
+  background-image: image-url('background.jpg');
+  height: 550px;
+  color: #1B1A17;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.title {
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 500;
+  color: white
+}
+
+.footer {
+  float: right;
+  position: fixed;
+  bottom: 5px;
+  right: 4px;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.col-form-label {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.button {
+  align-items: center;
+  border-radius: 8px;
+  border-width: 0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .1), 0 3px 6px rgba(0, 0, 0, .05);
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  flex-direction: column;
+  font-family: expo-brand-demi, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 15px;
+  height: 40px;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  overflow: hidden;
+  padding: 0 32px;
+  text-align: center;
+  text-decoration: none;
+  transform: translate3d(0, 0, 0);
+  transition: all 150ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+
+  &:hover {
+    box-shadow: rgba(0, 1, 0, .2) 0 2px 8px;
+    opacity: .85;
+  }
+
+  &:active {
+    outline: 0;
+  }
+
+  &:focus {
+    box-shadow: rgba(0, 0, 0, .5) 0 0 0 3px;
+  }
+
+  @media (max-width: 420px) {
+    .button-84 {
+      height: 48px;
+    }
+  }
+}
+
+.new_article {
+  position: fixed;
+  top: 100px;
+  right: 10px;
+}
+
+.profile_picture {
+  border-radius: 50%;
+  text-align: center;
+
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
