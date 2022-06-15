@@ -5,6 +5,7 @@ class Quiz < ApplicationRecord
   has_many :question_quizzes, dependent: :destroy
   has_many :questions, through: :question_quizzes
   has_and_belongs_to_many :categories
+  scope :filter_quiz, -> { where.not(user_answer: []) }
   belongs_to :user, optional: true
   after_create_commit :notify_receipt
   def notify_receipt

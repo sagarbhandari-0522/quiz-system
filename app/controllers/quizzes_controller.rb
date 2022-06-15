@@ -3,8 +3,9 @@
 class QuizzesController < ApplicationController
   layout :resolve_layout
   before_action :find_quiz, only: %i[show update destroy]
+
   def index
-    @quizzes = current_user.admin? ? Quiz.all : current_user.quizzes
+    @quizzes = current_user.admin? ? Quiz.filter_quiz : current_user.quizzes.filter_quiz
   rescue StandardError => e
     render(body: e.message)
   end
@@ -33,6 +34,7 @@ class QuizzesController < ApplicationController
 
   def show
     @questions = @quiz.questions
+    @answers = find_answer(@quiz)
     respond_to do |format|
       format.html
       format.pdf do
@@ -64,21 +66,28 @@ class QuizzesController < ApplicationController
 
   private
 
-  # def quiz_params
-  #   params.require(:quiz).permit(user_answer: [])
-  # end
+  def find_answer(quiz)
+    answers = []
+    quiz.user_answer.each do |answer_id|
+      answer = Option.find_by(id: answer_id)
+      answers << answer if answer
+    end
+    answers
+  end
 
   def generate_report_pdf(format_is)
-    @questions = QuestionQuiz.where(quiz_id: @quiz.id)
+    @questions = @quiz.questions
+    @answers = find_answer(@quiz)
     quiz_pdf = QuizzesController.new.render_to_string(
       layout: 'pdf',
       template: 'quizzes/pdf',
       locals: {
         :@quiz => @quiz,
-        :@questions => @questions
+        :@questions => @questions,
+        :@answers => @answers
       }
     )
-    pdf = Grover.new(quiz_pdf).to_pdf
+    pdf = Grover.new(quiz_pdf, display_url: 'http://localhost:3000').to_pdf
     if format_is == 'report_pdf'
       send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
     else
@@ -91,7 +100,6 @@ class QuizzesController < ApplicationController
   end
 
   def answer
-    #  quiz_params[:user_answer].filter { |answer| !answer.empty? }
     params[:quiz].values
   end
 
