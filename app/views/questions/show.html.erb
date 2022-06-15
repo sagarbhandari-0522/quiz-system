@@ -1,24 +1,22 @@
-<div class="card mx-3">
+<div class="card">
 	<div class="card-header text-center">
-		<% @question.categories.each do |category|%>
-			<b>	<%= category.name + " "%><b>
-				<%end%>
-			</div>
-			<div class="card-body">
-				<h5 class="card-title">	<%= @question.title%></h5>
-				<ol>
-					<div class="row">
-						<%= render @question.options%>
-					</div>
-				</ol>
-				<% unless @option[0].nil?%>
-				<% end %>
-			</div>
-			<div class="card-footer text-muted">
-				<%if policy(@question).edit?%>
-					<button class="button btn-primary" role="button"><%= link_to 'Edit Question', edit_question_path(@question),class:"text-light text-decoration-none"%></button>
-					<button class="button btn-danger"><%= link_to 'Delete Question', question_path(@question), data:{turbo_method: :delete},class:"text-light text-decoration-none"%></button>
-				<% end %>
-				<button class="button btn-success"><%= link_to 'Back', questions_path,class:"text-light text-decoration-none" %></button>
-			</div>
+		<% @question&.categories.each do |category|%>
+			<b>	<%= category.name + " "%></b>
+		<%end%>
+	</div>
+	<div class="card-body">
+		<h5 class="card-title show-question">	<%= @question.title%></h5>
+		<div class="row mt-3">
+			<%= render @question.options%>
 		</div>
+		<% unless @option[0].nil?%>
+		<% end %>
+	</div>
+	<div class="card-footer text-muted">
+		<%if policy(@question).edit?%>
+			<button class="button btn-primary" role="button"><%= link_to 'Edit Question', edit_question_path(@question),class:"text-light text-decoration-none"%></button>
+			<button class="button btn-danger"><%= link_to 'Delete Question', question_path(@question), data:{turbo_method: :delete},class:"text-light text-decoration-none"%></button>
+		<% end %>
+		<button class="button btn-success"><%= link_to 'Back', questions_path,class:"text-light text-decoration-none" %></button>
+	</div>
+</div>

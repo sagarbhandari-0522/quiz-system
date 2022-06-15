@@ -4,7 +4,8 @@ Grover.configure do |config|
   config.options = {
     format: 'A4',
     margin: {
-      top: '5px'
+      top: '5px',
+      bottom: '1cm'
     },
     viewport: {
       width: 640,

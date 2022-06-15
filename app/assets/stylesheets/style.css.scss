@@ -25,14 +25,14 @@
 }
 
 .correct-option-image {
-  width: 25rem;
+  width: 18rem;
   border: 1px solid #B5ECC1;
   border-radius: 25px;
   background-color: #B5ECC1
 }
 
 .incorrect-option-image {
-  width: 25rem;
+  width: 18rem;
   border: 1px solid #FFD6CE;
   border-radius: 25px;
   background-color: #FFD6CE
@@ -43,6 +43,14 @@
   background-color: #B5ECC1;
   border: 1px solid #B5ECC1;
   border-radius: 25px;
+}
+
+.show-question {
+  font-family: 'Roboto', sans-serif;
+}
+
+.play-button {
+  background-color: rgba(255, 0, 0, 0.5);
 }
 
 .incorrect-option {
