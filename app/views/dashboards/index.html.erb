@@ -1,9 +1,134 @@
-<p>Hello <%= current_user&.first_name %>!</p>
-<p>Welcome to the Quiz Mania </p>
-<%= link_to 'Add Question', new_question_path if current_user.admin?%>
-<%= link_to 'View Question', questions_path %>
-<%= link_to 'Add Categories', new_category_path if current_user.admin? %>
-<%= link_to 'View Categories', categories_path %>
-<%= link_to 'Play Quiz', play_quiz_path%>
-<%= link_to 'View Quiz', quizzes_path %>
-<%= turbo_frame_tag "notifications", src: notifications_path if current_user.admin? %>
+<div class="container-fluid">
+	<!-- Page Heading -->
+	<div class="d-sm-flex align-items-center justify-content-center mb-4">
+		<h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+	</div>
+</div>
+<!-- Content Row -->
+<div class="row">
+	<!-- View All Question -->
+	<div class="col-xl-6  mb-4">
+		<div class="card border-left-primary shadow h-100 py-2">
+			<div class="card-body">
+				<%= link_to(questions_path, class: 'text-decoration-none') do%>
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h5">
+								View Question</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800"><%= Question.all.count%></div>
+						</div>
+						<div class="col-auto">
+							<i class="fa fa-eye fa-2x text-gray-300"></i>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<!-- Add New Question -->
+	<% if current_user.admin?%>
+		<div class="col-xl-6 mb-4">
+			<div class="card border-left-success shadow h-100 py-2">
+				<div class="card-body">
+					<%= link_to(new_question_path, class:'text-decoration-none')  do%>
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div class="text-xs font-weight-bold text-success text-uppercase mb-1 h5">
+									Add Question
+								</div>
+							</div>
+							<div class="col-auto">
+								<i class="fas fa-question fa-2x text-gray-300"></i>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	<%end%>
+	<!--View All Category-->
+	<div class="col-xl-6 mb-4">
+		<div class="card border-left-info shadow h-100 py-2">
+			<div class="card-body">
+				<%= link_to(categories_path, class:'text-decoration-none') do%>
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="text-xs font-weight-bold text-info text-uppercase mb-1 h5">View Categories
+							</div>
+							<div class="row no-gutters align-items-center">
+								<div class="col-auto">
+									<div class="h5 mb-0 mx-3 font-weight-bold text-gray-800"><%= Category.all.count%></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-auto">
+							<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<!-- Add New Category -->
+	<% if current_user.admin?%>
+		<div class="col-xl-6 mb-4">
+			<div class="card border-left-warning shadow h-100 py-2">
+				<div class="card-body">
+					<%= link_to(new_category_path, class:'text-decoration-none') do%>
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div class="text-xs font-weight-bold text-warning text-uppercase mb-1 h5">
+									Add Category</div>
+							</div>
+							<div class="col-auto">
+								<i class="fas fa-sticky-note fa-2x text-gray-300"></i>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	<% end %>
+	<div class="col-xl-6 mb-4">
+		<div class="card border-left-dark shadow h-100 py-2">
+			<div class="card-body">
+				<%= link_to(play_quiz_path, class:'text-decoration-none') do%>
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="text-xs font-weight-bold text-dark text-uppercase mb-1 h5">
+								Play Quiz</div>
+						</div>
+						<div class="col-auto">
+							<i class="fas fa-play fa-2x text-gray-300"></i>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-6 mb-4">
+		<div class="card border-left-primary shadow h-100 py-2">
+			<div class="card-body">
+				<%= link_to(quizzes_path, class:'text-decoration-none') do%>
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h5">
+								View Quiz</div>
+							<div class="row no-gutters align-items-center">
+								<div class="col-auto">
+									<div class="h5 mb-0 mx-3 font-weight-bold text-gray-800"><%= Quiz.all.count if current_user.admin?%></div>
+									<div class="h5 mb-0 mx-3 font-weight-bold text-gray-800"><%= current_user.quizzes.all.count if current_user.user?%></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-auto">
+							<i class="fa fa-eye fa-2x text-gray-300"></i>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Content Row -->
+</div>

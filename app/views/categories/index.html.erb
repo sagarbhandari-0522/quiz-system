@@ -1,4 +1,13 @@
-<%== pagy_bootstrap_nav(@pagy) %>
+<div class="container-fluid">
+	<div class="d-sm-flex align-items-center justify-content-center mb-4">
+		<h1 class="h3 mb-0 text-gray-800">Listing All Categories</h1>
+	</div>
+</div>
 <% @categories.each do |category|%>
-	<%= link_to "#{category.name}",category_path(category)%><br>
-<% end%>
+	<div class="card container col-md-8 mb-4">
+		<div class="card-header  text-center">
+			<h3><%= link_to category.name.upcase,category_path(category), class:'text-decoration-none'%></h3>
+			<p class="text-secondary"> <%= pluralize(category.questions.count, 'Question')%></p>
+		</div>
+	</div>
+<%end%>

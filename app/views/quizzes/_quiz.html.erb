@@ -1,5 +1,22 @@
-<% obj.each do |quiz|%>
-	<p> Quiz <%= quiz.id %></p>
-	<%= link_to 'Show', quiz_path(quiz) %><br>
-	<%= link_to 'View as PDF', quiz_path(quiz,format: :pdf) %>
-<% end%>
+<div class='row'>
+	<% obj.each do |quiz|%>
+		<div class="col-5  mb-4">
+			<div class="card border-left-primary shadow h-100 py-2">
+				<div class="card-body">
+					<%= link_to(quiz_path(quiz), class: 'text-decoration-none') do%>
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h5">
+									View Quiz</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800"><%= Question.all.count%></div>
+							</div>
+							<div class="col-auto">
+								<i class="fa fa-eye fa-2x text-gray-300"></i>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	<% end%>
+</div>

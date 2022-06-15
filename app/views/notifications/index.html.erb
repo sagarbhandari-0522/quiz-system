@@ -1,13 +1,15 @@
 <%= turbo_frame_tag "notifications" do %>
-	<h1>Notifications</h1>
-	<ul>
-		<div class="dropright">
-			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Notification
-			</a>
-			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-				<%= render @notifications %>
-			</ul>
+	<li class="nav-item dropdown no-arrow mx-5 px-3">
+		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			<i class="fas fa-bell fa-fw"></i>
+			<span class="badge badge-danger badge-counter">3+</span>
+		</a>
+		<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+			<h6 class="dropdown-header">
+				Alerts Center
+			</h6>
+			<%= render @notifications %>
 		</div>
-	</ul>
+	</li>
 <% end %>

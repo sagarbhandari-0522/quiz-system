@@ -1,8 +1,11 @@
 <% if flash.any? %>
 	<% flash.each do |name,msg|%>
-		<div class="row mt-1">
-			<div class='col-md-8 offset-md-3 alert alert-<%="#{name}"%> alert-dismissible fade show' role="alert">
+		<div class="row">
+			<div class='alert alert-<%="#{name}"%> alert-dismissible fade show' role="alert">
 				<strong><%= msg %></strong>
+				<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 		</div>
 	<% end%>

@@ -1,10 +1,13 @@
-<h1><%= a%></h1>
-<%= form_with model:@category do|f|%>
-	<div>
-		<%= f.label :name%><br>
-		<%= f.text_field :name%>
+<div class="card p-3 addCategory mt-2 px-5 mx-5">
+	<div class='mx-auto mb-3'>
+		<h4><%= a%></h4>
 	</div>
-	<div>
-		<%= f.submit data: {turbo:false}%>
-	</div>
-<%end %>
+	<%= form_with model:@category do|f|%>
+		<div>
+			<%= f.text_field :name, class: "form-control w-75 my-2", placeholder:'Enter Category Name ....'%>
+		</div>
+		<div class='float-right'>
+			<%= f.submit data: {turbo:false},class:'btn btn-sm btn-primary'%>
+		</div>
+	<%end %>
+</div>

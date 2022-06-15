@@ -11,22 +11,25 @@ users = [
   {
     email: 'admin@gmail.com',
     password: 'password',
-    role: 'admin'
+    role: 'admin',
+    first_name: 'Admin 1'
   },
   {
     email: 'user1@gmail.com',
     password: 'password',
-    role: 'user'
+    role: 'user',
+    first_name: 'User 1'
   },
   {
     email: 'user2@gmail.com',
     password: 'password',
-    role: 'user'
+    role: 'user',
+    first_name: 'User 2'
   }
 ]
 Rails.logger.debug('************Creating User **********')
 users.each do |user|
-  User.create!(email: user[:email], password: user[:password], role: user[:role])
+  User.create!(email: user[:email], password: user[:password], role: user[:role], first_name: user[:first_name])
 end
 # user_id = User.all.map(&:id)
 Rails.logger.debug('*************User Created ***********')

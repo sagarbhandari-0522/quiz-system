@@ -1,31 +1,57 @@
-<h2>Sign up</h2>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-	<%= render "devise/shared/error_messages", resource: resource %>
-	<div class="field">
-		<%= f.label :first_name %><br />
-		<%= f.text_field :first_name, autofocus: true %>
+<body class="bg-gradient-primary">
+	<div class="container">
+		<div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="card-body p-0">
+				<!-- Nested Row within Card Body -->
+				<div class="row">
+					<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+					<div class="col-lg-7">
+						<div class="p-5">
+							<div class="text-center">
+								<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+							</div>
+							<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+								<%= render "devise/shared/error_messages", resource: resource %>
+								<div class="user">
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0 field">
+											<%= f.text_field :first_name,class: "form-control form-control-user", id: "exampleFirstName", placeholder: "First Name",autofocus: true, required:true %>
+										</div>
+										<div class="col-sm-6 field">
+											<%= f.text_field :last_name,class: "form-control form-control-user", id: "exampleLasttName", placeholder: "Last Name",autofocus: true , required:true %>
+										</div>
+									</div>
+									<div class="form-group">
+										<%= f.email_field :email,class:"form-control form-control-user", id:"exampleInputEmail",placeholder:"Email Address....", autofocus: true, autocomplete: "email"%>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<%= f.password_field :password,class:"form-control form-control-user", id:"exampleInputPassword",placeholder:"Password....", autocomplete: "new-password" %>
+											<% if @minimum_password_length %>
+												<em>(<%= @minimum_password_length %> characters minimum)</em>
+											<% end %><br />
+										</div>
+										<div class="col-sm-6">
+											<%= f.password_field :password_confirmation,class:"form-control form-control-user", id:"exampleRepeatPassword",placeholder:"Repeat Password....", autocomplete: "new-password" %>
+										</div>
+									</div>
+									<div class="actions">
+										<%= f.submit "Register Account",class: "btn btn-primary btn-user btn-block", data:{turbo:false} %>
+									</div>
+									<hr>
+								<% end %>
+								<%= button_to(user_google_oauth2_omniauth_authorize_path ,class: 'btn btn-google btn-user btn-block', data:{turbo:false}) do%>
+									<i class="fab fa-google fa-fw"></i> Login with Google
+								<% end %>
+							</div>
+							<hr>
+							<div class="text-center">
+								<%= link_to 'Already have an account? Login!', new_user_session_path,class: 'btn btn-facebook btn-user btn-block ' %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="field">
-		<%= f.label :last_name %><br />
-		<%= f.text_field :last_name, autofocus: true %>
-	</div>
-	<div class="field">
-		<%= f.label :email %><br />
-		<%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-	</div>
-	<div class="field">
-		<%= f.label :password %>
-		<% if @minimum_password_length %>
-			<em>(<%= @minimum_password_length %> characters minimum)</em>
-		<% end %><br />
-		<%= f.password_field :password, autocomplete: "new-password" %>
-	</div>
-	<div class="field">
-		<%= f.label :password_confirmation %><br />
-		<%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-	</div>
-	<div class="actions">
-		<%= f.submit "Sign up", data:{turbo:false} %>
-	</div>
-<% end %>
-<%= render "devise/shared/links" %>
+</body>
