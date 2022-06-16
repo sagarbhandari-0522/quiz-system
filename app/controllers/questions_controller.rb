@@ -5,8 +5,7 @@ class QuestionsController < ApplicationController
   before_action :find_question, only: %i[show edit update destroy]
   def index
     @pagy, @questions = pagy(Question.all, items: 12)
-  rescue StandardError => e
-    render(body: e.message)
+    authorize(@questions)
   end
 
   def new
@@ -16,10 +15,8 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @option = Option.correct(@question)
     authorize(@question)
-  rescue StandardError => e
-    render(body: e.message)
+    @option = Option.correct(@question)
   end
 
   def create

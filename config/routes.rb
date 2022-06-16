@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   devise_scope :user do
+    root to: 'devise/sessions#new'
     get '/users/sign_out', to: 'devise/sessions#destroy', as: :logout
   end
   resources :notifications, only: [:index]
@@ -12,6 +13,5 @@ Rails.application.routes.draw do
   end
   resources :categories
   resources :quizzes
-  root 'welcome#index'
   get '/play_quiz', to: 'quizzes#select_category', as: :play_quiz
 end

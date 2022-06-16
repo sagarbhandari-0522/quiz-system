@@ -22,27 +22,29 @@
 		Interface
 	</div>
 	<!-- Nav Item - Pages Collapse Menu -->
-	<li class="nav-item">
-		<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+	<%if current_user.admin?%>
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-			<i class="fas fa-fw fa-cog"></i>
-			<span>Components</span>
-		</a>
-		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-			<div class="bg-white py-2 collapse-inner rounded">
-				<h6 class="collapse-header">Utilities:</h6>
-				<%= link_to 'View Questions', questions_path,class: 'collapse-item'%>
-				<%= link_to 'Add Questions', new_question_path,class: 'collapse-item'  if current_user.admin?%>
-				<%= link_to 'View Category', categories_path,class: 'collapse-item' %>
-				<%= link_to 'Add Category', new_category_path,class: 'collapse-item' if current_user.admin?%>
+				<i class="fa fa-list-alt"></i>
+				<span>Components</span>
+			</a>
+			<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+					<h6 class="collapse-header">Utilities:</h6>
+					<%= link_to 'View Questions', questions_path,class: 'collapse-item'%>
+					<%= link_to 'Add Questions', new_question_path,class: 'collapse-item'  if current_user.admin?%>
+					<%= link_to 'View Category', categories_path,class: 'collapse-item' %>
+					<%= link_to 'Add Category', new_category_path,class: 'collapse-item' if current_user.admin?%>
+				</div>
 			</div>
-		</div>
-	</li>
+		</li>
+	<%end%>
 	<!-- Nav Item - Utilities Collapse Menu -->
 	<li class="nav-item">
 		<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
-			<i class="fas fa-fw fa-wrench"></i>
+			<i class="fas fa-file"></i>
 			<span>Quiz</span>
 		</a>
 		<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
