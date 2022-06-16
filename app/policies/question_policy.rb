@@ -1,27 +1,18 @@
 # frozen_string_literal: true
 
 class QuestionPolicy < ApplicationPolicy
-  attr_reader :user, :question
-
   def initialize(user, question)
     super
     @user = user
     @question = question
   end
 
-  class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
-    def resolve
-      scope.all
-    end
-  end
-
   def index?
-    true
+    @user.admin?
   end
 
   def show?
-    true
+    @user.admin?
   end
 
   def new?

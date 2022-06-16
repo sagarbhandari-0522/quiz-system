@@ -3,6 +3,7 @@
 class QuizzesController < ApplicationController
   layout :resolve_layout
   before_action :find_quiz, only: %i[show update destroy]
+  before_action :select_category, only: %i[new]
 
   def index
     @quizzes = current_user.admin? ? Quiz.filter_quiz : current_user.quizzes.filter_quiz

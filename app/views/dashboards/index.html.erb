@@ -7,26 +7,26 @@
 <!-- Content Row -->
 <div class="row">
 	<!-- View All Question -->
-	<div class="col-xl-6  mb-4">
-		<div class="card border-left-primary shadow h-100 py-2">
-			<div class="card-body">
-				<%= link_to(questions_path, class: 'text-decoration-none') do%>
-					<div class="row no-gutters align-items-center">
-						<div class="col mr-2">
-							<div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h5">
-								View Question</div>
-							<div class="h5 mb-0 font-weight-bold text-gray-800"><%= Question.all.count%></div>
+	<% if current_user.admin?%>
+		<div class="col-xl-6  mb-4">
+			<div class="card border-left-primary shadow h-100 py-2">
+				<div class="card-body">
+					<%= link_to(questions_path, class: 'text-decoration-none') do%>
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h5">
+									View Question</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800"><%= Question.all.count%></div>
+							</div>
+							<div class="col-auto">
+								<i class="fa fa-eye fa-2x text-gray-300"></i>
+							</div>
 						</div>
-						<div class="col-auto">
-							<i class="fa fa-eye fa-2x text-gray-300"></i>
-						</div>
-					</div>
-				<% end %>
+					<% end %>
+				</div>
 			</div>
 		</div>
-	</div>
-	<!-- Add New Question -->
-	<% if current_user.admin?%>
+		<!-- Add New Question -->
 		<div class="col-xl-6 mb-4">
 			<div class="card border-left-success shadow h-100 py-2">
 				<div class="card-body">
@@ -45,32 +45,30 @@
 				</div>
 			</div>
 		</div>
-	<%end%>
-	<!--View All Category-->
-	<div class="col-xl-6 mb-4">
-		<div class="card border-left-info shadow h-100 py-2">
-			<div class="card-body">
-				<%= link_to(categories_path, class:'text-decoration-none') do%>
-					<div class="row no-gutters align-items-center">
-						<div class="col mr-2">
-							<div class="text-xs font-weight-bold text-info text-uppercase mb-1 h5">View Categories
-							</div>
-							<div class="row no-gutters align-items-center">
-								<div class="col-auto">
-									<div class="h5 mb-0 mx-3 font-weight-bold text-gray-800"><%= Category.all.count%></div>
+		<!--View All Category-->
+		<div class="col-xl-6 mb-4">
+			<div class="card border-left-info shadow h-100 py-2">
+				<div class="card-body">
+					<%= link_to(categories_path, class:'text-decoration-none') do%>
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div class="text-xs font-weight-bold text-info text-uppercase mb-1 h5">View Categories
+								</div>
+								<div class="row no-gutters align-items-center">
+									<div class="col-auto">
+										<div class="h5 mb-0 mx-3 font-weight-bold text-gray-800"><%= Category.all.count%></div>
+									</div>
 								</div>
 							</div>
+							<div class="col-auto">
+								<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+							</div>
 						</div>
-						<div class="col-auto">
-							<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-						</div>
-					</div>
-				<% end %>
+					<% end %>
+				</div>
 			</div>
 		</div>
-	</div>
-	<!-- Add New Category -->
-	<% if current_user.admin?%>
+		<!-- Add New Category -->
 		<div class="col-xl-6 mb-4">
 			<div class="card border-left-warning shadow h-100 py-2">
 				<div class="card-body">

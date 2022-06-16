@@ -2,11 +2,13 @@
 	<%= form_with model: @quiz do |form|%>
 		<i=0>
 			<% @quiz.questions&.each_with_index do|question,index|%>
-				<div class="my-1 font-weight-bold">
+				<div class="my-1 font-weight-bold mx-4">
 					<%= "#{index+1}.)"%>
 					<%= question.title%>
 				</div>
 				<div class="row">
+					<div class="col-1">
+					</div>
 					<div class="col-5">
 						<% question.options&.each do |answer|%>
 							<div class='col-6 card mb-1 incorrect-option'>

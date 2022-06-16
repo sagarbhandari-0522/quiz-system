@@ -106,6 +106,12 @@
   font-weight: bold;
 }
 
+@media print {
+  .page-break {
+    page-break-before: always;
+  }
+}
+
 .button {
   align-items: center;
   border-radius: 8px;
