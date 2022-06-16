@@ -4,8 +4,15 @@
 			<i class="fas fa-file-alt text-white"></i>
 		</div>
 	</div>
-	<div class="mr-5">
-		<div class="small text-gray-500"><%= notification.created_at.to_date %></div>
-		<span class="font-weight-bold"><%= notification.to_notification.message %></span>
-	</div>
+	<% if notification.unread?%>
+		<div class="mr-5">
+			<div class="small text-gray-500"><%= notification.created_at.to_date %></div>
+			<span class="font-weight-bold"><%= notification.to_notification.message %></span>
+		</div>
+	<% else %>
+		<div class="mr-5">
+			<div class="small text-gray-500"><%= notification.created_at.to_date %></div>
+			<span><%= notification.to_notification.message %></span>
+		</div>
+	<% end %>
 <% end%>
