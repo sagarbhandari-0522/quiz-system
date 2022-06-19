@@ -25,6 +25,6 @@ class QuizNotification < Noticed::Base
   end
 
   def url
-    quiz_path(params[:quiz])
+    quiz_path(Quiz.find(params[:quiz][:id]))
   end
 end
