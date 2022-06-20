@@ -4,9 +4,13 @@ class QuizzesController < ApplicationController
   layout :resolve_layout
   before_action :find_quiz, only: %i[show update destroy]
   before_action :select_category, only: %i[new]
-
   def index
-    @quizzes = current_user.admin? ? Quiz.filter_quiz : current_user.quizzes.filter_quiz
+    quizzes = current_user.admin? ? Quiz.filter_quiz : current_user.quizzes.filter_quiz
+    @q = quizzes.ransack(params[:q])
+    @pagy, @quizzes = pagy(@q.result(distinct: true), items: 10)
+    @search_for = 'email_or_user_email_cont'
+    @placeholder = 'Search User Quiz'
+    @users = find_user
   rescue StandardError => e
     render(body: e.message)
   end
@@ -63,6 +67,14 @@ class QuizzesController < ApplicationController
     redirect_to(quizzes_path, status: :see_other)
   rescue StandardError => e
     render(body: e.message)
+  end
+
+  def user_quizzes
+    @user = User.find_by(id: params[:user_id])
+    @quiz = @user.quizzes.filter_quiz
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
@@ -125,6 +137,14 @@ class QuizzesController < ApplicationController
     @questions.each do |question|
       QuestionQuiz.create!(quiz_id: quiz_id, question_id: question.id)
     end
+  end
+
+  def find_user
+    users = []
+    @quizzes.each do |quiz|
+      users << quiz.user unless quiz.user.nil?
+    end
+    users.uniq
   end
 
   def categories_question

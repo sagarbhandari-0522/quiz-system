@@ -1,0 +1,10 @@
+<%= search_form_for @q, url:path, class: "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 mx-lg-auto navbar-search" do |f| %>
+	<div class="input-group">
+		<%= f.search_field @search_for.to_sym, class:"form-control bg-light border-0 small", placeholder: @placeholder %>
+		<div class="input-group-append">
+			<%= button_tag type: 'submit', class: "btn btn-primary", id: "register-button" do %>
+				<i class="fas fa-search fa-sm"></i>
+			<% end %>
+		</div>
+	</div>
+<% end %>
