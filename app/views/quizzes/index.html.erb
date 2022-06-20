@@ -1,1 +1,29 @@
+<%= javascript_include_tag 'custom/custom' %>
+<div class="row mt-3 mb-5">
+	<% if current_user.admin?%>
+		<div class="col-4 ml-5">
+			<%= select_tag "user_id",options_from_collection_for_select(@users, "id", "email"),class: 'form-select form-select-lg mb-1',:prompt => "Select a user", :onchange=>"user_quiz(this.value)"%>
+		</div>
+	<% end %>
+	<div class="col-6 float-right ml-5">
+		<%= search_form_for @q, url:quizzes_path, class: "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 mx-lg-auto navbar-search" do |f| %>
+			<div class="input-group">
+				<%= f.label :created_at_gteq,'Start Date:', class:'font-weight-bold'%>
+				<%= f.date_field :created_at_gteq, class:"form-control bg-light border-0 small text-secondary"%>
+				<%= f.label :created_at_lteq, "End Date:", class:'font-weight-bold'%>
+				<%= f.date_field :created_at_lteq, class:"form-control bg-light border-0 small text-secondary"%>
+				<div class="input-group-append">
+					<%= button_tag type: 'submit', class: "btn btn-primary", id: "register-button" do %>
+						<i class="fas fa-search fa-sm"></i>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
+<div id='show'>
 	<%=render 'quiz', obj:@quizzes%>
+</div>
+<div class="float-right">
+	<%== pagy_bootstrap_nav(@pagy) %>
+</div>

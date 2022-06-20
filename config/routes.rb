@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   resources :categories
   resources :quizzes
   get '/play_quiz', to: 'quizzes#select_category', as: :play_quiz
+  get '/user_quizzes', to: 'quizzes#user_quizzes'
 end
