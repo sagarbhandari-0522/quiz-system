@@ -1,8 +1,8 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
+import jQuery from 'jquery';
+window.$ = window.jQuery = jQuery;
 import "@hotwired/turbo-rails"
 import "controllers"
-import './add_jquery'
-import "jquery"
 import "popper"
 import "bootstrap"
 import "vanilla-nested";

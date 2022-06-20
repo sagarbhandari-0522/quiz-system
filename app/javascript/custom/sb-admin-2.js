@@ -1,4 +1,5 @@
-
+import jQuery from 'jquery';
+window.$ = window.jQuery = jQuery;
 (function ($) {
   "use strict"; // Start of use strict
 
