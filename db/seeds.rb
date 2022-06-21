@@ -15,6 +15,12 @@ users = [
     first_name: 'Admin 1'
   },
   {
+    email: 'admin2@gmail.com',
+    password: 'password',
+    role: 'admin',
+    first_name: 'Admin 2'
+  },
+  {
     email: 'user1@gmail.com',
     password: 'password',
     role: 'user',
@@ -56,7 +62,7 @@ Rails.logger.debug('****************Category Created ************')
 Rails.logger.debug('**************Creating Question with Options************')
 questions = [
   [
-    'Who is the prime minister of nepal', [1, 2],
+    'Who is the prime minister of nepal?', [1, 2],
     [
       {
         title: 'Sher Bahadur Deuwa',
@@ -71,7 +77,7 @@ questions = [
     ]
   ],
   [
-    'Which country won FIFA worldcup 2018', [2, 4],
+    'Which country won FIFA worldcup 2018?', [2, 4],
     [
       {
         title: 'Brazil'
@@ -90,7 +96,7 @@ questions = [
     ]
   ],
   [
-    'Who is the father of C programming language', [2, 4],
+    'Who is the father of C programming language?', [2, 4],
     [
       {
         title: 'Richard Trevithick'
@@ -171,7 +177,7 @@ questions = [
     ]
   ],
   [
-    'Who founded Apple Computer', [2, 3],
+    'Who founded Apple Computer?', [2, 3],
     [
       {
         title: 'Stephen Fry'
@@ -193,7 +199,7 @@ questions = [
     ]
   ],
   [
-    'What is the name for a pointing device', [2, 3],
+    'What is the name for a pointing device?', [2, 3],
     [
       {
         title: 'Mouse',
@@ -237,7 +243,7 @@ questions = [
     ]
   ],
   [
-    'Who is the maker of the iPhone ', [2, 3, 4],
+    'Who is the maker of the iPhone? ', [2, 3, 4],
     [
       {
         title: 'Microsoft'
@@ -303,7 +309,7 @@ questions = [
     ]
   ],
   [
-    'Who is the father of History', [2, 4],
+    'Who is the father of History?', [2, 4],
     [
       {
         title: 'Herodotus',
@@ -323,7 +329,7 @@ questions = [
     ]
   ],
   [
-    'Who built Great Wall of CHina', [2, 4],
+    'Who built Great Wall of China?', [2, 4],
     [
       {
         title: 'Richard Trevithick'
@@ -403,7 +409,7 @@ questions = [
     ]
   ],
   [
-    'Neandertal Valley is in :', [2, 4],
+    'Neandertal Valley is in :?', [2, 4],
     [
       {
         title: 'Nepal'
@@ -424,7 +430,7 @@ questions = [
     ]
   ],
   [
-    'Cro-Magnon is in:', [2, 4],
+    'Cro-Magnon is in:?', [2, 4],
     [
       {
         title: 'Nepal'
