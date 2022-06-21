@@ -100,7 +100,7 @@ class QuizzesController < ApplicationController
         :@answers => @answers
       }
     )
-    pdf = Grover.new(quiz_pdf, display_url: 'https://sagar-quiz.herokuapp.com').to_pdf
+    pdf = Grover.new(quiz_pdf, display_url: 'http://localhost:3000').to_pdf
     if format_is == 'report_pdf'
       send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
     else
