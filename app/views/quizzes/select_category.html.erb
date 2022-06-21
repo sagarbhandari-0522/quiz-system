@@ -9,10 +9,19 @@
 			<div class="d-sm-flex align-items-center justify-content-center mb-4">
 				<h1 class="h3 mb-0 text-gray-800">Choose Categories</h1>
 			</div>
-			<%= form.collection_check_boxes :category_ids, Category.all, :id, :name%>
+			<%= form.collection_check_boxes(:category_ids, Category.all, :id, :name) do |b| %>
+				<%= b.label(class:"form-check-label mx-3")do%>
+					<div class="row mb-1">
+						<div class='col-lg-2'></div>
+						<div class='col'><%=b.text%></div>
+						<div class='col'><%=b.check_box(class:"form-check-input")%></div>
+					</div>
+				<%end%>
+			<%end%>
 			<div>
 				<%= form.submit "Proceed", data:{turbo:false}, class:'float-right btn btn-sm btn-primary'%>
 			</div>
 		</div>
-	<% end %>
+	</div>
+<% end %>
 </div>

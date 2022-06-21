@@ -176,3 +176,19 @@
   height: 50px;
   border-radius: 50%;
 }
+
+.hide {
+  display: none;
+}
+
+.myDIV {
+  &:hover+.hide {
+    display: inline-block;
+  }
+}
+
+.report-card {
+  background-color: #F9F9F9;
+  border: 1px solid #CDF0EA;
+  border-radius: 15px
+}

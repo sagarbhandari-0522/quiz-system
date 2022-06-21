@@ -19,7 +19,7 @@ class QuizzesController < ApplicationController
 
   def new
     if params[:category_ids].length == 1
-      flash[:danger] = 'Please Select at least One Category'
+      flash[:error] = 'Please Select at least One Category'
       redirect_to(play_quiz_path)
     else
       @questions = []
@@ -169,7 +169,7 @@ class QuizzesController < ApplicationController
     if current_user
       'application'
     else
-      'devise'
+      'non-logged'
     end
   end
 end

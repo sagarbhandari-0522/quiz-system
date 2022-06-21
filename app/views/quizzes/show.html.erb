@@ -1,31 +1,44 @@
 <div class='card p-4 m-2'>
-	<% @questions&.each_with_index do |question,index| %>
-		<h6 class='mt-3'><%="#{index+1}. #{question.title}"%></h6>
-		<div class="row mt-3">
-			<%= render question.options%>
+	<div class='row'>
+		<div class='col'>
+			<% @questions&.each_with_index do |question,index| %>
+				<h6 class='mt-3'><%="#{index+1}. #{question.title}"%></h6>
+				<div class="row mt-3">
+					<%= render question.options%>
+				</div>
+				<h6 class='mx-2 my-2'>Answer:</h6>
+				<div class='mx-4'>
+					<% if @answers[index]&.correct%>
+						<li class="card mb-1 correct-quiz-answer">
+							<p class='p-2 mx-4 my-auto'><input class= "form-check-input"type="checkbox" checked disabled>
+								<%= @answers[index].title %>
+							</p>
+						</li>
+					<% else %>
+						<li class="card mb-2 incorrect-quiz-answer">
+							<p class='p-2 mx-4 my-auto'><input  class= "form-check-input" type="checkbox" unchecked disabled>
+								<%= @answers[index].title %>
+							</p>
+						</li>
+					<% end %>
+				</div>
+			<%end%>
+			<%unless current_user.nil?%>
+				<%= button_to 'Delete Quiz',quiz_path(@quiz),method: :delete, class:'btn btn-danger btn-sm float-right' if policy(@quiz).destroy?%>
+			<%end%>
 		</div>
-		<h6 class='mx-2 my-2'>Answer:</h6>
-		<div class='mx-4'>
-			<% if @answers[index]&.correct%>
-				<li class="card mb-1 correct-quiz-answer">
-					<p class='p-2 mx-4 my-auto'><input class= "form-check-input"type="checkbox" checked disabled>
-						<%= @answers[index].title %>
-					</p>
-				</li>
-			<% else %>
-				<li class="card mb-2 incorrect-quiz-answer">
-					<p class='p-2 mx-4 my-auto'><input  class= "form-check-input" type="checkbox" unchecked disabled>
-						<%= @answers[index].title %>
-					</p>
-				</li>
-			<% end %>
+		<div class='col-5 bg'>
+			<div class="card report-card">
+				<div class="card-body">
+					<div>
+						<h5><span class="font-italic">Played by:</span> <%= @quiz.email||@quiz.user&.first_name&.capitalize %></h5>
+						<h5><span class="font-italic">Played at:</span> <%= @quiz.updated_at.to_date%></h5>
+						<h5><span class="font-italic">Score:</span>	<%= @quiz.score%></h5>
+						<h5><span class="font-italic">Percentage:</span> <%= @quiz.percentage%>%</h5>
+						<h5><span class="font-italic">Total Marks:</span> <%= @questions&.count%></h5>
+					</div>
+				</div>
+			</div>
 		</div>
-	<%end%>
-	<div class='mt-5'>
-		<h5 class="font-italic">Score:	<%= @quiz.score%></h5>
-		<h5 class="font-italic">Percentage: <%= @quiz.percentage%></h5>
 	</div>
-	<%unless current_user.nil?%>
-		<%= button_to 'Delete Quiz',quiz_path(@quiz),method: :delete, class:'btn btn-danger btn-sm float-right' if policy(@quiz).destroy?%>
-	<%end%>
 </div>

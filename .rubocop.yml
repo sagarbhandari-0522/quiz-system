@@ -422,5 +422,4 @@ Style/SwapValues: # (new in 1.1)
   Enabled: true
 
 Style/MissingElse:
-  Exclude:
-    - 'config/environments/production.rb'
+  Enabled: false

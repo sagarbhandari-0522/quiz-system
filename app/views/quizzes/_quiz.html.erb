@@ -3,25 +3,25 @@
 		<div class="col-5  mb-4">
 			<div class="card border-left-primary shadow h-100 pt-2">
 				<div class="card-body">
-					<%= link_to(quiz_path(quiz), class: 'text-decoration-none') do%>
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
+					<div class="row">
+						<div class="col-9">
+							<%= link_to(quiz_path(quiz), class: 'text-decoration-none') do%>
 								<div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h5">
 									View Quiz
 								</div>
-							</div>
-							<div class="col-auto">
-								<i class="fa fa-eye fa-2x text-gray-300"></i>
-							</div>
+								<div class='row'>
+									<div class='col-9 text-secondary mt-2 pl-1'>
+										<span><i>User:</i> <%=quiz.email||quiz.user.email%></span><br>
+										<span> <i>Created At:</i> <%= quiz.updated_at.to_date%></span>
+									</div>
+								</div>
+							<% end %>
 						</div>
-					<% end %>
-					<div class='row'>
-						<div class='col-9 text-secondary mt-2 pl-1'>
-							<span><i>User:</i> <%=quiz.email||quiz.user.email%></span><br>
-							<span> <i>Created At:</i> <%= quiz.updated_at.to_date%></span>
-						</div>
-						<div class='col-3 my-auto'>
-							<%= link_to 'View as PDF', quiz_path(quiz,format: :pdf), class:'btn btn-sm btn-primary text-light float-right text-decoration-none' %>
+						<div class="col-3">
+							<%= link_to(quiz_path(quiz,format: :pdf), class:'text-decoration-none') do%>
+								<div class="myDIV"><i class="fa fa-eye fa-2x text-gray-300 display-inline"></i></div>
+								<small class="hide btn btn-secondary btn-sm"> View as PDF</small>
+							<% end %>
 						</div>
 					</div>
 				</div>
