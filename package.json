@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "jquery": "^3.6.0",
     "puppeteer": "^13.7.0"
   }
 }
