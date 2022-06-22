@@ -30,7 +30,7 @@
 			</div>
 		</li>
 		<li class="nav-item dropdown no-arrow mx-1">
-			<%= render 'notifications/index' if current_user.admin?%>
+			<%= turbo_frame_tag "notifications", src: notifications_path if current_user.admin? %>
 		</li>
 		<div class="topbar-divider d-none d-sm-block"></div>
 		<!-- Nav Item - User Information -->
