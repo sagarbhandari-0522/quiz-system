@@ -15,12 +15,6 @@ users = [
     first_name: 'Admin 1'
   },
   {
-    email: 'admin2@gmail.com',
-    password: 'password',
-    role: 'admin',
-    first_name: 'Admin 2'
-  },
-  {
     email: 'user1@gmail.com',
     password: 'password',
     role: 'user',

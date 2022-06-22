@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_notifications, if: :current_user
   include Pundit::Authorization
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -18,6 +19,12 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def set_notifications
+    @notifications = Notification.where(recipient: current_user).newest_first
+    @unread = @notifications.unread
+    @read = @notifications.read
+  end
 
   def user_not_authorized
     flash[:danger] = 'You are not authorized to perform this action.'
