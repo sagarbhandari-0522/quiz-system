@@ -1,27 +1,36 @@
 <%= javascript_include_tag 'custom/custom' %>
+<div class="container-fluid">
+	<!-- Page Heading -->
+	<div class="d-sm-flex align-items-center justify-content-center mb-4">
+		<h1 class="h3 mb-0 text-gray-800">Quizzes</h1>
+	</div>
+</div>
+<b class="ml-3">Filter By: </b>
+<div class='float-right mr-2'>
+	<%= link_to 'View All', quizzes_path,class: 'btn btn-primary btn-md' if current_user.admin?%>
+</div>
+<br>
 <div class="row mt-3 mb-5">
+	<div class='col-1'></div>
 	<% if current_user.admin?%>
-		<div class="col-3 ml-3">
-			<%= select_tag "user_id",options_from_collection_for_select(@users, "id", "email"),class: 'form-select form-select-md mb-1',:prompt => "Select a user", :onchange=>"user_quiz(this.value)"%>
+		<div class="col-3">
+			<%= select_tag "user_id",options_from_collection_for_select(@users, "id", "email"),class: 'form-select form-select-md mb-1 pointer',:prompt => "Select a user", :onchange=>"user_quiz(this.value)"%>
 		</div>
 	<% end %>
-	<div class="col-6 float-right ml-5">
+	<div class="col-6 ml-5">
 		<%= search_form_for @q, url:quizzes_path, class: "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 mx-lg-auto navbar-search" do |f| %>
-			<div class="input-group">
+			<div class="input-group date-filter px-3">
 				<%= f.label :created_at_gteq,'Start Date:', class:'font-weight-bold'%>
-				<%= f.date_field :created_at_gteq, class:"form-control bg-light border-0 small text-secondary"%>
+				<%= f.date_field :created_at_gteq, class:"form-control border-0 small text-secondary pointer date-filter"%>
 				<%= f.label :created_at_lteq, "End Date:", class:'font-weight-bold'%>
-				<%= f.date_field :created_at_lteq, class:"form-control bg-light border-0 small text-secondary"%>
+				<%= f.date_field :created_at_lteq, class:"form-control border-0 small text-secondary pointer date-filter"%>
 				<div class="input-group-append">
-					<%= button_tag type: 'submit', class: "btn btn-primary", id: "register-button" do %>
-						<i class="fas fa-filter fa-sm"></i>
+					<%= button_tag type: 'submit', class: "btn btn-sm" do %>
+						<i class="fa fa-filter fa-1x"></i>
 					<% end %>
 				</div>
 			</div>
 		<% end %>
-	</div>
-	<div class='col-2'>
-		<%= link_to 'View All', quizzes_path,class: 'btn btn-primary btn-sm' if current_user.admin?%>
 	</div>
 </div>
 <div id='show'>

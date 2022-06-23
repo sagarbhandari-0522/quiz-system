@@ -2,7 +2,6 @@
 	<!-- Sidebar - Brand -->
 	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboards">
 		<div class="sidebar-brand-icon rotate-n-15">
-			<i class="fas fa-laugh-wink"></i>
 		</div>
 		<div class="sidebar-brand-text mx-3"><%= current_user.role %></div>
 	</a>
@@ -32,10 +31,22 @@
 			<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Utilities:</h6>
-					<%= link_to 'View Questions', questions_path,class: 'collapse-item'%>
-					<%= link_to 'Add Questions', new_question_path,class: 'collapse-item'  if current_user.admin?%>
-					<%= link_to 'View Category', categories_path,class: 'collapse-item' %>
-					<%= link_to 'Add Category', new_category_path,class: 'collapse-item' if current_user.admin?%>
+					<%= link_to(questions_path,class: 'collapse-item') do%>
+						<span> View Questions </span>
+						<i class="fa fa-eye text-secondary pl-1"></i>
+					<% end %>
+					<%= link_to(new_question_path,class: 'collapse-item') do%>
+						<span> Add Questions </span>
+						<i class="fa fa-plus text-secondary pl-1"></i>
+					<% end %>
+					<%= link_to(categories_path,class: 'collapse-item') do%>
+						<span> View Categories </span>
+						<i class="fa fa-eye text-secondary pl-1"></i>
+					<% end %>
+					<%= link_to(new_category_path,class: 'collapse-item') do%>
+						<span> Add Categories </span>
+						<i class="fa fa-plus text-secondary pl-1"></i>
+					<% end %>
 				</div>
 			</div>
 		</li>
