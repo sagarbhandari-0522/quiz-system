@@ -31,7 +31,7 @@
 			<div class="card report-card">
 				<div class="card-body">
 					<div>
-						<h5><span class="font-italic">Played by:</span> <%= @quiz.email||@quiz.user&.first_name&.capitalize %></h5>
+						<h5><span class="font-italic">Played by:</span> <%= @quiz.email||@quiz.user.email %></h5>
 						<h5><span class="font-italic">Played at:</span> <%= @quiz.updated_at.to_date%></h5>
 						<h5><span class="font-italic">Score:</span>	<%= @quiz.score%></h5>
 						<h5><span class="font-italic">Percentage:</span> <%= @quiz.percentage%>%</h5>
