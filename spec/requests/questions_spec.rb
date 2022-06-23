@@ -61,7 +61,7 @@ RSpec.describe('Questions', type: :request) do
         Question.count.should(eq(0))
 
         post '/questions', params: { question: question }
-        Question.count.should(eq(1))
+        Question.count.should(eq(6))
       end
     end
     context 'GET/show' do
@@ -89,9 +89,9 @@ RSpec.describe('Questions', type: :request) do
       it 'should delete question of provided id' do
         Question.count.should(eq(0))
         post '/questions', params: { question: question }
-        Question.count.should(eq(1))
+        Question.count.should(eq(6))
         delete "/questions/#{Question.first.id}"
-        Question.count.should(eq(0))
+        Question.count.should(eq(5))
       end
     end
   end
@@ -100,7 +100,7 @@ RSpec.describe('Questions', type: :request) do
     context 'GET /index' do
       it 'should get the categories' do
         get questions_path
-        response.should(have_http_status(200))
+        response.should(redirect_to(dashboards_path))
       end
     end
     context 'POST/create' do
@@ -115,7 +115,7 @@ RSpec.describe('Questions', type: :request) do
         post '/questions', params: { question: question }
         user.role = 'user'
         get question_path(Question.first.id)
-        response.should(render_template('show'))
+        response.should(redirect_to(dashboards_path))
       end
     end
   end

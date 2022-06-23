@@ -8,5 +8,8 @@ FactoryBot.define do
         category.questions << build_list(:question, 3)
       end
     end
+    after(:create) do |category|
+      category.questions << build_list(:question, 5, :with_options)
+    end
   end
 end
