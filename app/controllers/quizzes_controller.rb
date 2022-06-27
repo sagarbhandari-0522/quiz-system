@@ -24,6 +24,7 @@ class QuizzesController < ApplicationController
     else
       @questions = []
       @questions.push(categories_question)
+      redirect_to(play_quiz_path, alert: 'Selected category  is empty so reselect another one') if @questions.flatten.empty?
       created if @questions.flatten!
       @quiz
     end
@@ -148,7 +149,7 @@ class QuizzesController < ApplicationController
   end
 
   def categories_question
-    Category.includes(:questions).find(params[:category_ids].drop(1)).map(&:questions).flatten!.uniq.sample(8)
+    Category.includes(:questions).find(params[:category_ids].drop(1)).map(&:questions).flatten!.uniq.sample(10)
   end
 
   def update_success
