@@ -27,7 +27,7 @@ RSpec.describe('Quizzes', type: :request) do
         category1 = create(:category)
         category2 = create(:category)
         get new_quiz_path, params: { category_ids: [' ', category1.id, category2.id] }
-        Quiz.first.questions.count.should(eq(8))
+        Quiz.first.questions.count.should(eq(10))
       end
     end
   end
