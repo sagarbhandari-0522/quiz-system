@@ -8,16 +8,24 @@
 				</div>
 				<h6 class='mx-2 my-2'>Answer:</h6>
 				<div class='mx-4'>
-					<% if @answers[index]&.correct%>
-						<li class="card mb-1 correct-quiz-answer">
-							<p class='p-2 mx-4 my-auto'><input class= "form-check-input"type="checkbox" checked disabled>
-								<%= @answers[index].title %>
-							</p>
-						</li>
+					<% if @answers[index].class==Option%>
+						<% if @answers[index]&.correct%>
+							<li class="card mb-1 correct-quiz-answer">
+								<p class='p-2 mx-4 my-auto'><input class= "form-check-input"type="checkbox" checked disabled>
+									<%= @answers[index].title %>
+								</p>
+							</li>
+						<% else %>
+							<li class="card mb-2 incorrect-quiz-answer">
+								<p class='p-2 mx-4 my-auto'><input  class= "form-check-input" type="checkbox" unchecked disabled>
+									<%= @answers[index].title %>
+								</p>
+							</li>
+						<% end %>
 					<% else %>
-						<li class="card mb-2 incorrect-quiz-answer">
+						<li class="card mb-2 unevaluated-quiz-answer">
 							<p class='p-2 mx-4 my-auto'><input  class= "form-check-input" type="checkbox" unchecked disabled>
-								<%= @answers[index].title %>
+								<%= @answers[index] %>
 							</p>
 						</li>
 					<% end %>

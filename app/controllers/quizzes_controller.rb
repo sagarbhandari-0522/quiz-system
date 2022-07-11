@@ -51,6 +51,16 @@ class QuizzesController < ApplicationController
   end
 
   def update
+    params[:quiz] = {} unless params[:quiz]
+    quiz_answer = {}
+    @quiz.questions.ids.each do |id|
+      quiz_answer[id] = if params[:quiz].key?(id.to_s)
+                          params[:quiz][id.to_s]
+                        else
+                          'nil'
+                        end
+    end
+    params[:quiz] = quiz_answer
     user_answer = answer
     scores = score(user_answer)
     percentage = percentage(scores)
@@ -83,8 +93,12 @@ class QuizzesController < ApplicationController
   def find_answer(quiz)
     answers = []
     quiz.user_answer.each do |answer_id|
-      answer = Option.find_by(id: answer_id)
-      answers << answer if answer
+      answer = if answer_id == 'nil'
+                 'Not Evaluated'
+               else
+                 Option.find_by(id: answer_id)
+               end
+      answers << answer
     end
     answers
   end
@@ -103,7 +117,7 @@ class QuizzesController < ApplicationController
     )
     pdf = Grover.new(quiz_pdf, display_url: 'https://sagar-quiz.herokuapp.com').to_pdf
     if format_is == 'report_pdf'
-      send_data(pdf, filename: 'your_filename.pdf', type: 'application/pdf')
+      send_data(pdf, filename: 'quiz.pdf', type: 'application/pdf')
     else
       pdf
     end
@@ -125,7 +139,7 @@ class QuizzesController < ApplicationController
   def score(answers)
     scores = 0
     answers.each do |option_id|
-      scores += 1 if Option.find(option_id).correct
+      scores += 1 if (option_id != 'nil') && Option.find(option_id).correct
     end
     scores
   end
