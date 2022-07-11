@@ -8,6 +8,8 @@ class Quiz < ApplicationRecord
   scope :filter_quiz, -> { where.not(user_answer: []) }
   belongs_to :user, optional: true
   after_update_commit :notify_receipt
+  before_update :calculation
+
   before_destroy :cleanup_notifications
 
   def notify_receipt
@@ -17,5 +19,25 @@ class Quiz < ApplicationRecord
 
   def cleanup_notifications
     notifications_as_quiz.destroy_all
+  end
+
+  def self.find_user
+    users = []
+    Quiz.all.find_each do |quiz|
+      users << quiz.user unless quiz.user.nil?
+    end
+    users.uniq
+  end
+
+  def score(answers)
+    scores = 0
+    answers.each do |option_id|
+      scores += 1 if Option.find(option_id).correct
+    end
+    scores
+  end
+
+  def percentage(score)
+    (score * 100) / questions.count
   end
 end

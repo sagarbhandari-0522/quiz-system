@@ -3,14 +3,11 @@
 class QuizzesController < ApplicationController
   layout :resolve_layout
   before_action :find_quiz, only: %i[show update destroy]
-  before_action :select_category, only: %i[new]
   def index
     quizzes = current_user.admin? ? Quiz.filter_quiz : current_user.quizzes.filter_quiz
     @q = quizzes.ransack(params[:q])
     @pagy, @quizzes = pagy(@q.result(distinct: true), items: 10)
-    @search_for = 'email_or_user_email_cont'
-    @placeholder = 'Search User Quiz'
-    @users = find_user
+    @users = Quiz.find_user
   rescue StandardError => e
     render(body: e.message)
   end
@@ -18,16 +15,11 @@ class QuizzesController < ApplicationController
   def select_category; end
 
   def new
-    if params[:category_ids].length == 1
-      flash[:error] = 'Please Select at least One Category'
-      redirect_to(play_quiz_path)
-    else
-      @questions = []
-      @questions.push(categories_question)
-      redirect_to(play_quiz_path, alert: 'Selected category  is empty so reselect another one') if @questions.flatten.empty?
-      created if @questions.flatten!
-      @quiz
-    end
+    @questions = []
+    @questions.push(categories_question)
+    redirect_to(play_quiz_path, alert: 'Selected category  is empty so reselect another one') if @questions.flatten.empty?
+    created if @questions.flatten!
+    @quiz
   end
 
   def created
@@ -52,8 +44,8 @@ class QuizzesController < ApplicationController
 
   def update
     user_answer = answer
-    scores = score(user_answer)
-    percentage = percentage(scores)
+    scores = @quiz.score(user_answer)
+    percentage = @quiz.percentage(scores)
     if @quiz.update(user_answer: user_answer, percentage: percentage, score: scores)
       update_success
     else
@@ -122,34 +114,18 @@ class QuizzesController < ApplicationController
     notifications_to_mark_as_read.update!(read_at: Time.zone.now)
   end
 
-  def score(answers)
-    scores = 0
-    answers.each do |option_id|
-      scores += 1 if Option.find(option_id).correct
-    end
-    scores
-  end
-
-  def percentage(score)
-    (score * 100) / @quiz.questions.count
-  end
-
   def question_quiz(quiz_id)
     @questions.each do |question|
       QuestionQuiz.create!(quiz_id: quiz_id, question_id: question.id)
     end
   end
 
-  def find_user
-    users = []
-    @quizzes.each do |quiz|
-      users << quiz.user unless quiz.user.nil?
-    end
-    users.uniq
-  end
-
   def categories_question
-    Category.includes(:questions).find(params[:category_ids].drop(1)).map(&:questions).flatten!.uniq.sample(10)
+    if params[:category_ids].length == 1
+      redirect_to(play_quiz_path, alert: 'Please Select at least One Category')
+    else
+      Category.includes(:questions).find(params[:category_ids].drop(1)).map(&:questions).flatten!.uniq.sample(10)
+    end
   end
 
   def update_success
