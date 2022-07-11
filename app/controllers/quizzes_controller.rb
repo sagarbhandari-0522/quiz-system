@@ -3,6 +3,7 @@
 class QuizzesController < ApplicationController
   layout :resolve_layout
   before_action :find_quiz, only: %i[show update destroy]
+
   def index
     quizzes = current_user.admin? ? Quiz.filter_quiz : current_user.quizzes.filter_quiz
     @q = quizzes.ransack(params[:q])
@@ -15,16 +16,16 @@ class QuizzesController < ApplicationController
   def select_category; end
 
   def new
+    @quiz = Quiz.new
     @questions = []
     @questions.push(categories_question)
     redirect_to(play_quiz_path, alert: 'Selected category  is empty so reselect another one') if @questions.flatten.empty?
-    created if @questions.flatten!
+    create_quiz if @questions.flatten!
     @quiz
   end
 
-  def created
-    @quiz = Quiz.new
-    @quiz.email = params[:email] if current_user.nil?
+  def create_quiz
+    @quiz.email = params[:email] || current_user.email
     @quiz.user_id = current_user.id unless current_user.nil?
     @quiz.category_ids = params[:category_ids].drop(1)
     question_quiz(@quiz.id) if @quiz.save
@@ -32,11 +33,12 @@ class QuizzesController < ApplicationController
 
   def show
     @questions = @quiz.questions
-    @answers = find_answer(@quiz)
+    @answers = @quiz.find_answer
     respond_to do |format|
       format.html
       format.pdf do
-        generate_report_pdf('report_pdf')
+        pdf = Quizzes::GenerateReportPdfService.new(quiz: @quiz).execute
+        send_data(pdf, filename: 'quiz.pdf', type: 'application/pdf')
       end
     end
     mark_notifications_as_read
@@ -44,20 +46,12 @@ class QuizzesController < ApplicationController
 
   def update
     params[:quiz] = {} unless params[:quiz]
-    quiz_answer = {}
-    @quiz.questions.ids.each do |id|
-      quiz_answer[id] = if params[:quiz].key?(id.to_s)
-                          params[:quiz][id.to_s]
-                        else
-                          'nil'
-                        end
-    end
-    params[:quiz] = quiz_answer
-    user_answer = answer
-    scores = @quiz.score(user_answer)
-    percentage = @quiz.percentage(scores)
+    quiz_answer = @quiz.update_quiz_answer(params[:quiz])
+    user_answer = quiz_answer.values
+    scores = @quiz.scores(user_answer)
+    percentage = @quiz.percentages(scores)
     if @quiz.update(user_answer: user_answer, percentage: percentage, score: scores)
-      update_success
+      redirect_to(quiz_path(@quiz))
     else
       flash[:danger] = 'You have Missed Something REDO'
       render(:select_category, status: :unprocessable_entity)
@@ -82,45 +76,8 @@ class QuizzesController < ApplicationController
 
   private
 
-  def find_answer(quiz)
-    answers = []
-    quiz.user_answer.each do |answer_id|
-      answer = if answer_id == 'nil'
-                 'Not Evaluated'
-               else
-                 Option.find_by(id: answer_id)
-               end
-      answers << answer
-    end
-    answers
-  end
-
-  def generate_report_pdf(format_is)
-    @questions = @quiz.questions
-    @answers = find_answer(@quiz)
-    quiz_pdf = QuizzesController.new.render_to_string(
-      layout: 'pdf',
-      template: 'quizzes/pdf',
-      locals: {
-        :@quiz => @quiz,
-        :@questions => @questions,
-        :@answers => @answers
-      }
-    )
-    pdf = Grover.new(quiz_pdf, display_url: 'https://sagar-quiz.herokuapp.com').to_pdf
-    if format_is == 'report_pdf'
-      send_data(pdf, filename: 'quiz.pdf', type: 'application/pdf')
-    else
-      pdf
-    end
-  end
-
   def find_quiz
     @quiz = Quiz.find_by(id: params[:id])
-  end
-
-  def answer
-    params[:quiz].values
   end
 
   def mark_notifications_as_read
@@ -140,20 +97,6 @@ class QuizzesController < ApplicationController
     else
       Category.includes(:questions).find(params[:category_ids].drop(1)).map(&:questions).flatten!.uniq.sample(10)
     end
-  end
-
-  def update_success
-    @guest_email = @quiz.email || current_user.email
-    send_email
-    flash[:success] = 'Thanks For Playing Quiz'
-    redirect_to(quiz_path(@quiz))
-  end
-
-  def send_email
-    QuizSystemMailer.with(
-      email: @guest_email,
-      report: generate_report_pdf('mail')
-    ).welcome_email.deliver_later
   end
 
   def resolve_layout

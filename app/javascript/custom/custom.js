@@ -23,7 +23,7 @@ const timeoutId = setInterval(() => {
   sec++
   if (sec === 60) { min++; sec = 0; }
 
-  if (sec === 50) {
+  if (sec === 4) {
     form.submit();
     clearInterval(timeoutId)
     alert('Time exceded ')
