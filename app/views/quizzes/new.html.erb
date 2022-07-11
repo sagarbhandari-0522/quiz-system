@@ -1,30 +1,32 @@
+<%= javascript_include_tag 'custom/custom' %>
 <div class='mx-2'>
-	<%= form_with model: @quiz do |form|%>
-		<i=0>
-			<% @quiz.questions&.each_with_index do|question,index|%>
-				<div class="my-1 font-weight-bold mx-4">
-					<%= "#{index+1}.)"%>
-					<%= question.title%>
-				</div>
-				<div class="row">
-					<div class="col-1">
-					</div>
-					<div class="col-5">
-						<% question.options&.each do |answer|%>
-							<div class='col-6 card mb-1 incorrect-option'>
-								<p class='p-2 mx-2 my-auto form-check mx-3'><%= form.radio_button question.id, answer.id,required: true, class: 'form-check-input p-2 pointer' %>
-									<% if answer.image?%>
-										<%= label "quiz_#{question.id}_".to_s,answer.id,image_tag(answer.image.thumb.url,alt:'Image',size: "180x180"), class: 'form-check-label img-fluid mx-auto pointer'%></p>
-								<% else %>
-									<%= label "quiz_#{question.id}_".to_s,answer.id, answer.title, class: 'form-check-label pointer'%></p>
-							<%end%>
-						</div>
-					<% end %>
-				</div>
+	<%= form_with model: @quiz, :html => { :id => "new_quiz" }  do |form|%>
+		<div id='clock' class="float-right">
+		</div>
+		<% @quiz.questions&.each_with_index do|question,index|%>
+			<div class="my-1 font-weight-bold mx-4">
+				<%= "#{index+1}.)"%>
+				<%= question.title%>
 			</div>
-		<% end%>
-		<div>
-			<%=form.submit 'Submit',  class:'btn btn-primary float-right'%>
+			<div class="row">
+				<div class="col-1">
+				</div>
+				<div class="col-5">
+					<% question.options&.each do |answer|%>
+						<div class='col-6 card mb-1 incorrect-option'>
+							<p class='p-2 mx-2 my-auto form-check mx-3'><%= form.radio_button question.id, answer.id,required: true, class: 'form-check-input p-2 pointer' %>
+								<% if answer.image?%>
+									<%= label "quiz_#{question.id}_".to_s,answer.id,image_tag(answer.image.thumb.url,alt:'Image',size: "180x180"), class: 'form-check-label img-fluid mx-auto pointer'%></p>
+							<% else %>
+								<%= label "quiz_#{question.id}_".to_s,answer.id, answer.title, class: 'form-check-label pointer'%></p>
+						<%end%>
+					</div>
+				<% end %>
+			</div>
 		</div>
 	<% end%>
+	<div>
+		<%=form.submit 'Submit',  class:'btn btn-primary float-right'%>
+	</div>
+<% end%>
 </div>

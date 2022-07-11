@@ -32,7 +32,7 @@ class Quiz < ApplicationRecord
   def score(answers)
     scores = 0
     answers.each do |option_id|
-      scores += 1 if Option.find(option_id).correct
+      scores += 1 if (option_id != 'nil') && Option.find(option_id).correct
     end
     scores
   end
