@@ -1,4 +1,4 @@
-<p class='p-2'>Thanks user having Email: <b><%= @quiz&.email || @quiz&.user&.email%></b> for playing Quiz on <b>Categories </b>
+<p class='p-2'>Thanks user having Email: <b><%= quiz_email(@quiz) %></b> for playing Quiz on <b>Categories </b>
 	<%= quiz_categories(@quiz)%>
 </p>
 <div class='row'>
@@ -12,8 +12,8 @@
 				</div>
 				<h6>Answer:</h6>
 				<div>
-					<% if @answers[index]&.class==Option%>
-						<% if @answers[index]&.correct%>
+					<% if option?(@answers[index])%>
+						<% if correct?(@answers[index])%>
 							<div class="card mb-1 correct-quiz-answer">
 								<p class='p-2 mx-4 my-auto'><input class= "form-check-input"type="checkbox" checked disabled>
 									<%= @answers[index].title %>
