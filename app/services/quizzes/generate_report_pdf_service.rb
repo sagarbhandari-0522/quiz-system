@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Quizzes
   class GenerateReportPdfService
     def initialize(quiz:)

@@ -17,13 +17,14 @@ const padZero = (number = 0, requiredLength = 2) => {
   return neededToPadLength > 0 ? `${'0'.repeat(neededToPadLength)}${number}` : number;
 };
 
-let min = 0, sec = 0
+let min = 1, sec = 0
 const timeoutId = setInterval(() => {
-  time.innerHTML = `TIME: ${padZero(min)} : ${padZero(sec + 1)}`
-  sec++
-  if (sec === 60) { min++; sec = 0; }
+  if (sec === 0) { min--; sec = 59; }
+  time.innerHTML = `TIME: ${padZero(min)} : ${padZero(sec - 1)}`
 
-  if (sec === 4) {
+  sec--
+
+  if (min === 0 && sec === 0) {
     form.submit();
     clearInterval(timeoutId)
     alert('Time exceded ')

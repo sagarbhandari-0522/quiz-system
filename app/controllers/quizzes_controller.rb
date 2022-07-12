@@ -32,7 +32,7 @@ class QuizzesController < ApplicationController
   end
 
   def show
-    @questions = @quiz.questions
+    @questions = @quiz.questions.includes([:options])
     @answers = @quiz.find_answer
     respond_to do |format|
       format.html
