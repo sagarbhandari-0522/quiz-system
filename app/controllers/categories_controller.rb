@@ -8,7 +8,9 @@ class CategoriesController < ApplicationController
     @categories = Category.all
   end
 
-  def show; end
+  def show
+    @questions = @category.questions
+  end
 
   def new
     @category = Category.new
@@ -59,6 +61,6 @@ class CategoriesController < ApplicationController
   end
 
   def find_category
-    @category = Category.find_by(id: params[:id])
+    @category = Category.includes(:questions).find_by(id: params[:id])
   end
 end
