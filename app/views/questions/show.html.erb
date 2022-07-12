@@ -1,16 +1,12 @@
 <div class="card">
 	<div class="card-header text-center">
-		<% @question&.categories.each do |category|%>
-			<b>	<%= category.name + " "%></b>
-		<%end%>
+		<%= question_categories(@question) %>
 	</div>
 	<div class="card-body">
-		<h5 class="card-title show-question">	<%= @question.title%></h5>
+		<h5 class="card-title show-question">	<%= @question&.title%></h5>
 		<div class="row mt-3">
 			<%= render @question.options%>
 		</div>
-		<% unless @option[0].nil?%>
-		<% end %>
 	</div>
 	<div class="card-footer text-muted">
 		<%if policy(@question).edit?%>
