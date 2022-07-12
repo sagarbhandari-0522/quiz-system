@@ -39,8 +39,8 @@
 			<div class="card report-card">
 				<div class="card-body">
 					<div>
-						<h5><span class="font-italic">Played by:</span> <%= @quiz.email||@quiz.user.email %></h5>
-						<h5><span class="font-italic">Played at:</span> <%= @quiz.updated_at.to_date%></h5>
+						<h5><span class="font-italic">Performed by:</span> <%= quiz_email(@quiz) %></h5>
+						<h5><span class="font-italic">Performed at:</span> <%= @quiz.updated_at.to_date%></h5>
 						<h5><span class="font-italic">Score:</span>	<%= @quiz.score%></h5>
 						<h5><span class="font-italic">Percentage:</span> <%= @quiz.percentage%>%</h5>
 						<h5><span class="font-italic">Total Marks:</span> <%= @questions&.count%></h5>
