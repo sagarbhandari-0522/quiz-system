@@ -13,15 +13,15 @@ module Quizzes
     private
 
     def generate_report_pdf
-      @questions = @quiz.questions
-      @answers = @quiz.find_answer
+      questions = @quiz.questions
+      answers = @quiz.find_answer
       quiz_pdf = QuizzesController.new.render_to_string(
         layout: 'pdf',
         template: 'quizzes/pdf',
         locals: {
           :@quiz => @quiz,
-          :@questions => @questions,
-          :@answers => @answers
+          :@questions => questions,
+          :@answers => answers
         }
       )
       Grover.new(quiz_pdf, display_url: 'https://sagar-quiz.herokuapp.com').to_pdf

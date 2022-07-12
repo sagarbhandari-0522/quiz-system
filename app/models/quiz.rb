@@ -21,7 +21,7 @@ class Quiz < ApplicationRecord
 
   def self.find_user
     users = []
-    Quiz.all.find_each do |quiz|
+    Quiz.all.includes([:user]).find_each do |quiz|
       users << quiz.user unless quiz.user.nil?
     end
     users.uniq
@@ -36,10 +36,10 @@ class Quiz < ApplicationRecord
   end
 
   def send_email
-    @guest_email = email
+    guest_email = email
     report = Quizzes::GenerateReportPdfService.new(quiz: self).execute
     QuizSystemMailer.with(
-      email: @guest_email,
+      email: guest_email,
       report: report
     ).welcome_email.deliver_later
   end
@@ -64,7 +64,7 @@ class Quiz < ApplicationRecord
     answers = []
     user_answer.each do |answer_id|
       answer = if answer_id == 'nil'
-                 'Not Checked'
+                 'Un Checked'
                else
                  Option.find_by(id: answer_id)
                end
