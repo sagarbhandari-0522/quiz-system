@@ -68,7 +68,7 @@ class Quiz < ApplicationRecord
                else
                  Option.find_by(id: answer_id)
                end
-      answers << answer
+      answers << answer unless answer.nil?
     end
     answers
   end
