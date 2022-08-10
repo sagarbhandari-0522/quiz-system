@@ -78,6 +78,11 @@ end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem 'capistrano', require: false
+  gem 'capistrano3-puma',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rbenv', require: false
   gem 'web-console'
   # bullet gem
 
@@ -96,5 +101,8 @@ group :test do
   gem 'shoulda-matchers', '~> 5.0'
   gem 'webdrivers'
 end
+gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
+gem 'ed25519', '>= 1.2', '< 2.0'
 gem 'grover'
+gem 'net-ssh', '>= 6.0.2'
 gem 'noticed', '~> 1.5'
