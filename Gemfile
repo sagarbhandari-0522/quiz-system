@@ -19,8 +19,7 @@ gem 'sprockets-rails'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'passenger', '>= 5.0.25', require: 'phusion_passenger/rack_handler'
-
+gem 'puma', '~> 5.0'
 # use for embedding bootstrap
 gem 'bootstrap', '~> 5.1', '>= 5.1.3'
 
@@ -100,7 +99,7 @@ end
 gem 'capistrano', '~> 3.11'
 gem 'capistrano-passenger', '~> 0.2.0'
 gem 'capistrano-rails', '~> 1.4'
-gem 'capistrano-rails-collection'
 gem 'capistrano-rbenv', '~> 2.1', '>= 2.1.4'
+gem 'capistrano-rails-collection'
 gem 'grover'
 gem 'noticed', '~> 1.5'
