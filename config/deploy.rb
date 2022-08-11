@@ -5,13 +5,15 @@ set :application, 'quiz_deployment'
 set :repo_url, 'git@git.gurzu.net:sagar.bhandari/quiz-system.git'
 # Deploy to the user's home directory
 set :deploy_to, "/home/vandari/#{fetch(:application)}"
-set :passenger_restart_with_touch, true
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads', 'public/packs',
        'node_modules'
 
 # Only keep the last 5 releases to save disk space
 set :keep_releases, 5
 set :branch, 'main'
+set :passenger_restart_with_touch, true
+set :passenger_restart_with_sudo, true
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
